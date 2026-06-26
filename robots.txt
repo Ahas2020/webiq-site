@@ -1,0 +1,9 @@
+# WEBIQ.AI — robots.txt
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://thewebiq.pro/sitemap.xml
+
+# Block admin page from indexing
+Disallow: /admin.html

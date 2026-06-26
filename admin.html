@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WEBIQ.AI — لوحة التحكم</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#0A0A0F;color:#F8FAFC;font-family:'Segoe UI',Arial,sans-serif;min-height:100vh;}
+
+/* LOGIN */
+.login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;}
+.login-box{background:#111118;border:1px solid rgba(124,58,237,.3);border-radius:20px;padding:3rem;width:360px;text-align:center;}
+.login-input{width:100%;padding:.9rem 1rem;border-radius:10px;background:#1A1A24;border:1px solid rgba(124,58,237,.2);color:#F8FAFC;font-size:1rem;outline:none;margin-bottom:1rem;text-align:center;letter-spacing:.1em;}
+.login-btn{width:100%;padding:1rem;border-radius:10px;background:linear-gradient(135deg,#7C3AED,#9F67FF);border:none;color:white;font-size:1rem;font-weight:700;cursor:pointer;transition:all .3s;}
+.login-btn:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(124,58,237,.4);}
+.logo-big{font-size:2rem;font-weight:900;background:linear-gradient(135deg,#9F67FF,#F59E0B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.5rem;}
+
+/* DASHBOARD */
+.dashboard{display:none;}
+.dash-nav{background:#111118;border-bottom:1px solid rgba(124,58,237,.2);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.dash-nav-title{font-weight:800;font-size:1.1rem;background:linear-gradient(135deg,#9F67FF,#F59E0B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.nav-tabs{display:flex;gap:.5rem;}
+.tab-btn{padding:.5rem 1.2rem;border-radius:8px;border:1px solid rgba(124,58,237,.2);background:transparent;color:#94A3B8;cursor:pointer;font-size:.85rem;transition:all .2s;font-family:inherit;}
+.tab-btn.active{background:linear-gradient(135deg,#7C3AED,#9F67FF);color:white;border-color:transparent;}
+.logout-btn{padding:.5rem 1rem;border-radius:8px;border:1px solid rgba(255,59,48,.3);background:transparent;color:#94A3B8;cursor:pointer;font-size:.8rem;}
+
+.tab-content{display:none;padding:2rem;max-width:1100px;margin:0 auto;}
+.tab-content.active{display:block;}
+
+/* CARDS */
+.card{background:#111118;border:1px solid rgba(124,58,237,.2);border-radius:16px;padding:1.8rem;margin-bottom:1.5rem;}
+.section-title-sm{font-size:1rem;font-weight:700;color:#9F67FF;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid rgba(124,58,237,.15);}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;}
+.field{display:flex;flex-direction:column;gap:.4rem;}
+.field.full{grid-column:1/-1;}
+label{font-size:.82rem;color:#94A3B8;font-weight:500;}
+input,select,textarea{padding:.75rem .9rem;border-radius:9px;background:#1A1A24;border:1px solid rgba(124,58,237,.2);color:#F8FAFC;font-size:.9rem;outline:none;font-family:inherit;transition:border-color .2s;}
+input:focus,select:focus,textarea:focus{border-color:#7C3AED;}
+textarea{min-height:80px;resize:vertical;}
+select option{background:#111118;}
+
+/* PRICE */
+.price-row{display:flex;align-items:center;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.price-row:last-child{border:none;}
+.price-label{color:#94A3B8;font-size:.88rem;}
+.price-val{font-weight:700;color:#F8FAFC;}
+.price-total{font-size:1.4rem;color:#F59E0B;font-weight:800;}
+
+/* BUTTONS */
+.btn-gold{padding:.8rem 1.6rem;border-radius:10px;background:linear-gradient(135deg,#F59E0B,#FCD34D);color:#0A0A0F;border:none;font-size:.9rem;font-weight:800;cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;gap:.5rem;}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 0 25px rgba(245,158,11,.4);}
+.btn-purple{padding:.8rem 1.6rem;border-radius:10px;background:linear-gradient(135deg,#7C3AED,#9F67FF);color:white;border:none;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;gap:.5rem;}
+.btn-purple:hover{transform:translateY(-2px);box-shadow:0 0 25px rgba(124,58,237,.4);}
+.btn-wa{padding:.8rem 1.6rem;border-radius:10px;background:#25D366;color:white;border:none;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;gap:.5rem;}
+.btn-wa:hover{transform:translateY(-2px);box-shadow:0 0 20px rgba(37,211,102,.4);}
+.btn-paypal{padding:.8rem 1.6rem;border-radius:10px;background:#003087;color:white;border:none;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;gap:.5rem;}
+.btn-paypal:hover{transform:translateY(-2px);box-shadow:0 0 20px rgba(0,48,135,.5);}
+.btn-red{padding:.8rem 1.6rem;border-radius:10px;background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.3);font-size:.9rem;font-weight:700;cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;gap:.5rem;}
+.btn-red:hover{background:rgba(239,68,68,.25);}
+.btn-group{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.2rem;}
+
+/* PIPELINE */
+.pipeline{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-bottom:2rem;}
+.pipeline-col{background:#111118;border:1px solid rgba(124,58,237,.15);border-radius:12px;padding:1rem;}
+.pipeline-col-title{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.8rem;padding-bottom:.5rem;border-bottom:1px solid rgba(255,255,255,.05);}
+.stage-new{color:#94A3B8;}
+.stage-deposit{color:#F59E0B;}
+.stage-work{color:#9F67FF;}
+.stage-review{color:#00b4d8;}
+.stage-done{color:#28C840;}
+
+.project-card{background:#1A1A24;border-radius:10px;padding:.8rem;margin-bottom:.6rem;border:1px solid rgba(255,255,255,.05);cursor:pointer;transition:all .2s;}
+.project-card:hover{border-color:rgba(124,58,237,.4);transform:translateY(-1px);}
+.project-card .p-name{font-weight:700;font-size:.85rem;margin-bottom:.3rem;}
+.project-card .p-biz{color:#94A3B8;font-size:.75rem;}
+.project-card .p-price{color:#F59E0B;font-size:.8rem;font-weight:700;margin-top:.4rem;}
+.project-card .p-date{color:#64748B;font-size:.72rem;}
+
+/* STATUS BADGE */
+.badge{display:inline-block;padding:.2rem .6rem;border-radius:20px;font-size:.72rem;font-weight:700;}
+.badge-new{background:rgba(148,163,184,.1);color:#94A3B8;border:1px solid rgba(148,163,184,.2);}
+.badge-deposit{background:rgba(245,158,11,.1);color:#F59E0B;border:1px solid rgba(245,158,11,.2);}
+.badge-work{background:rgba(124,58,237,.15);color:#9F67FF;border:1px solid rgba(124,58,237,.25);}
+.badge-review{background:rgba(0,180,216,.1);color:#00b4d8;border:1px solid rgba(0,180,216,.2);}
+.badge-done{background:rgba(40,200,64,.1);color:#28C840;border:1px solid rgba(40,200,64,.2);}
+
+/* PREVIEW */
+.msg-preview{background:#0d0d14;border:1px solid rgba(124,58,237,.2);border-radius:12px;padding:1.2rem;font-size:.85rem;line-height:1.8;color:#CBD5E1;white-space:pre-wrap;max-height:320px;overflow-y:auto;font-family:monospace;}
+
+/* PAYPAL BOX */
+.paypal-box{background:linear-gradient(135deg,rgba(0,48,135,.2),rgba(0,112,243,.1));border:1px solid rgba(0,112,243,.3);border-radius:14px;padding:1.5rem;}
+.paypal-amount{font-size:2.5rem;font-weight:900;color:#F59E0B;text-align:center;margin:1rem 0;}
+.paypal-link{background:#0070f3;color:white;padding:1rem 2rem;border-radius:12px;text-decoration:none;font-weight:700;font-size:1rem;display:block;text-align:center;margin-top:1rem;transition:all .3s;}
+.paypal-link:hover{background:#0051cc;transform:translateY(-2px);}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;}
+.stat-box{background:#111118;border:1px solid rgba(124,58,237,.2);border-radius:12px;padding:1.2rem;text-align:center;}
+.stat-num{font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,#9F67FF,#F59E0B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.stat-lbl{color:#94A3B8;font-size:.78rem;margin-top:.2rem;}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;right:2rem;background:#28C840;color:white;padding:.8rem 1.5rem;border-radius:10px;font-weight:600;font-size:.9rem;transform:translateY(100px);transition:transform .3s;z-index:9999;}
+.toast.show{transform:translateY(0);}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:500;display:none;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:#111118;border:1px solid rgba(124,58,237,.3);border-radius:20px;padding:2rem;width:90%;max-width:560px;max-height:90vh;overflow-y:auto;}
+.modal-title{font-size:1.1rem;font-weight:800;margin-bottom:1.2rem;}
+.modal-close{float:left;background:none;border:none;color:#94A3B8;font-size:1.2rem;cursor:pointer;}
+
+@media(max-width:768px){
+  .pipeline{grid-template-columns:1fr 1fr;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .grid2,.grid3{grid-template-columns:1fr;}
+  .nav-tabs{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-screen" id="login-screen">
+  <div class="login-box">
+    <div class="logo-big">WEBIQ.AI</div>
+    <h1 style="font-size:1.3rem;font-weight:800;margin-bottom:.3rem;">لوحة التحكم</h1>
+    <p style="color:#94A3B8;font-size:.88rem;margin-bottom:1.5rem;">أدخل كلمة المرور للوصول</p>
+    <input class="login-input" id="pwd-input" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkLogin()">
+    <button class="login-btn" onclick="checkLogin()">دخول →</button>
+    <p id="login-err" style="color:#ef4444;font-size:.85rem;margin-top:.8rem;display:none;">❌ كلمة المرور غير صحيحة</p>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboard">
+
+  <!-- NAV -->
+  <div class="dash-nav">
+    <div class="dash-nav-title">⚡ WEBIQ.AI Dashboard</div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchTab('pipeline')">📋 المشاريع</button>
+      <button class="tab-btn" onclick="switchTab('quote')">📄 عرض سعر</button>
+      <button class="tab-btn" onclick="switchTab('payment')">💰 نظام الأداء</button>
+      <button class="tab-btn" onclick="switchTab('messages')">💬 رسائل جاهزة</button>
+    </div>
+    <button class="logout-btn" onclick="logout()">خروج</button>
+  </div>
+
+  <!-- ══════════════ TAB 1: PIPELINE ══════════════ -->
+  <div class="tab-content active" id="tab-pipeline">
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-box"><div class="stat-num" id="stat-total">0</div><div class="stat-lbl">إجمالي المشاريع</div></div>
+      <div class="stat-box"><div class="stat-num" id="stat-active">0</div><div class="stat-lbl">مشاريع نشطة</div></div>
+      <div class="stat-box"><div class="stat-num" id="stat-revenue">$0</div><div class="stat-lbl">إجمالي الإيرادات</div></div>
+      <div class="stat-box"><div class="stat-num" id="stat-pending">$0</div><div class="stat-lbl">مبالغ معلّقة</div></div>
+    </div>
+
+    <!-- ADD PROJECT -->
+    <div class="card">
+      <div class="section-title-sm">➕ إضافة مشروع جديد</div>
+      <div class="grid3">
+        <div class="field"><label>اسم العميل</label><input id="np-name" placeholder="محمد العلوي"></div>
+        <div class="field"><label>واتساب العميل</label><input id="np-phone" placeholder="00212XXXXXXXXX"></div>
+        <div class="field"><label>اسم النشاط</label><input id="np-biz" placeholder="مطعم الأصالة"></div>
+        <div class="field"><label>نوع الموقع</label>
+          <select id="np-type">
+            <option>Landing Page</option><option>موقع متعدد صفحات</option>
+            <option>موقع مع حجز مواعيد</option><option>متجر إلكتروني</option>
+          </select>
+        </div>
+        <div class="field"><label>السعر الإجمالي ($)</label><input id="np-price" type="number" placeholder="500"></div>
+        <div class="field"><label>تاريخ التسليم</label><input id="np-delivery" type="date"></div>
+      </div>
+      <div style="margin-top:1rem;">
+        <button class="btn-purple" onclick="addProject()">➕ إضافة للبايبلاين</button>
+      </div>
+    </div>
+
+    <!-- PIPELINE BOARD -->
+    <div class="pipeline" id="pipeline-board">
+      <div class="pipeline-col">
+        <div class="pipeline-col-title stage-new">🆕 جديد</div>
+        <div id="col-new"></div>
+      </div>
+      <div class="pipeline-col">
+        <div class="pipeline-col-title stage-deposit">💰 انتظار العربون</div>
+        <div id="col-deposit"></div>
+      </div>
+      <div class="pipeline-col">
+        <div class="pipeline-col-title stage-work">⚡ قيد التنفيذ</div>
+        <div id="col-work"></div>
+      </div>
+      <div class="pipeline-col">
+        <div class="pipeline-col-title stage-review">👁️ مراجعة العميل</div>
+        <div id="col-review"></div>
+      </div>
+      <div class="pipeline-col">
+        <div class="pipeline-col-title stage-done">✅ مكتمل</div>
+        <div id="col-done"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ TAB 2: QUOTE ══════════════ -->
+  <div class="tab-content" id="tab-quote">
+    <div class="card">
+      <div class="section-title-sm">👤 بيانات العميل</div>
+      <div class="grid2">
+        <div class="field"><label>اسم العميل</label><input id="q-name" placeholder="محمد العلوي"></div>
+        <div class="field"><label>واتساب العميل</label><input id="q-phone" placeholder="00212XXXXXXXXX"></div>
+        <div class="field"><label>البريد الإلكتروني</label><input id="q-email" placeholder="client@email.com"></div>
+        <div class="field"><label>المدينة</label><input id="q-city" placeholder="الدار البيضاء"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title-sm">🏢 المشروع</div>
+      <div class="grid2">
+        <div class="field"><label>اسم النشاط</label><input id="q-biz" placeholder="مطعم الأصالة"></div>
+        <div class="field"><label>القطاع</label><input id="q-sector" placeholder="مطعم / عيادة / متجر..."></div>
+        <div class="field"><label>نوع الموقع</label>
+          <select id="q-site-type">
+            <option>موقع تعريفي (Landing Page)</option>
+            <option>موقع متعدد الصفحات (3–8 صفحات)</option>
+            <option>موقع مع نظام حجز مواعيد</option>
+            <option>متجر إلكتروني كامل</option>
+          </select>
+        </div>
+        <div class="field"><label>مستوى الاستعجال</label>
+          <select id="q-urgency" onchange="calcPrice()">
+            <option value="standard">عادي — خلال أسبوع</option>
+            <option value="express">سريع — خلال 3 أيام</option>
+            <option value="urgent">عاجل — خلال 24 ساعة (+30%)</option>
+          </select>
+        </div>
+        <div class="field full"><label>الميزات المضمّنة</label><input id="q-features" placeholder="Chatbot ذكي، 3 لغات، حجز مواعيد، SEO..."></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title-sm">💰 حاسبة السعر</div>
+      <div class="grid3">
+        <div class="field"><label>الباقة</label>
+          <select id="q-package" onchange="calcPrice()">
+            <option value="200">🌱 Starter — $200</option>
+            <option value="500" selected>🚀 Pro — $500</option>
+            <option value="800">⭐ Advanced — $800</option>
+            <option value="1200">👑 Enterprise — $1,200</option>
+            <option value="custom">مخصص...</option>
+          </select>
+        </div>
+        <div class="field"><label>سعر مخصص ($)</label><input id="q-custom" type="number" placeholder="0" oninput="calcPrice()"></div>
+        <div class="field"><label>خصم (%)</label><input id="q-discount" type="number" placeholder="0" min="0" max="50" oninput="calcPrice()"></div>
+      </div>
+      <div style="background:#0d0d14;border-radius:12px;padding:1.2rem;margin-top:1rem;">
+        <div class="price-row"><span class="price-label">السعر الأساسي</span><span class="price-val" id="pr-base">$500</span></div>
+        <div class="price-row" id="pr-urgent-row" style="display:none"><span class="price-label">⚡ رسوم الاستعجال</span><span class="price-val" id="pr-urgent"></span></div>
+        <div class="price-row" id="pr-disc-row" style="display:none"><span class="price-label">🎁 خصم</span><span class="price-val" style="color:#28C840" id="pr-disc"></span></div>
+        <div class="price-row" style="border-top:2px solid rgba(245,158,11,.3);margin-top:.5rem;padding-top:.8rem;">
+          <span class="price-label" style="font-weight:700;color:#F8FAFC;">💵 السعر النهائي</span>
+          <span class="price-total" id="pr-total">$500</span>
+        </div>
+        <div class="price-row"><span class="price-label">🤝 عربون (50%)</span><span class="price-val" id="pr-upfront" style="color:#F59E0B;">$250</span></div>
+        <div class="price-row"><span class="price-label">🏁 دفعة نهائية (50%)</span><span class="price-val" id="pr-final">$250</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title-sm">📋 التفاصيل</div>
+      <div class="grid2">
+        <div class="field"><label>تاريخ التسليم</label><input id="q-delivery" type="text" placeholder="مثال: 25 يونيو 2025"></div>
+        <div class="field"><label>صلاحية العرض</label>
+          <select id="q-validity"><option value="7">7 أيام</option><option value="14" selected>14 يوم</option><option value="30">30 يوم</option></select>
+        </div>
+        <div class="field full"><label>ما يشمله العرض</label>
+          <textarea id="q-includes" placeholder="• تصميم احترافي مخصص&#10;• 5 صفحات كاملة&#10;• Chatbot ذكي 24/7&#10;• 3 لغات&#10;• استضافة مجانية سنة أولى&#10;• شهادة SSL"></textarea>
+        </div>
+        <div class="field full"><label>ملاحظة شخصية للعميل</label>
+          <textarea id="q-note" placeholder="بعد مراجعة مشروعك بعناية، يسعدنا تقديم هذا العرض المخصص..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title-sm">👁️ معاينة وإرسال</div>
+      <button onclick="generatePreview()" class="btn-purple" style="margin-bottom:1rem;">🔄 توليد المعاينة</button>
+      <div class="msg-preview" id="quote-preview">اضغط "توليد المعاينة" أولاً...</div>
+      <div class="btn-group">
+        <button class="btn-wa" onclick="sendQuoteWA()">📱 إرسال العرض واتساب</button>
+        <button class="btn-gold" onclick="downloadPDF()">📄 تحميل PDF رسمي</button>
+        <button class="btn-purple" onclick="copyQuote()">📋 نسخ النص</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ TAB 3: PAYMENT ══════════════ -->
+  <div class="tab-content" id="tab-payment">
+
+    <!-- PAYPAL DEPOSIT GENERATOR -->
+    <div class="card">
+      <div class="section-title-sm">💳 مولّد رابط العربون — PayPal</div>
+      <div class="grid3">
+        <div class="field"><label>اسم العميل</label><input id="pay-name" placeholder="محمد العلوي"></div>
+        <div class="field"><label>واتساب العميل</label><input id="pay-phone" placeholder="00212XXXXXXXXX"></div>
+        <div class="field"><label>مبلغ العربون ($)</label><input id="pay-amount" type="number" placeholder="250" oninput="updatePaypalLink()"></div>
+        <div class="field"><label>اسم النشاط</label><input id="pay-biz" placeholder="مطعم الأصالة" oninput="updatePaypalLink()"></div>
+        <div class="field"><label>وصف الدفع (يظهر للعميل)</label><input id="pay-desc" placeholder="عربون موقع WEBIQ.AI" oninput="updatePaypalLink()"></div>
+        <div class="field"><label>العملة</label>
+          <select id="pay-currency" onchange="updatePaypalLink()">
+            <option value="USD">USD — دولار</option>
+            <option value="EUR">EUR — يورو</option>
+            <option value="GBP">GBP — جنيه</option>
+            <option value="CAD">CAD — دولار كندي</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="paypal-box" style="margin-top:1.5rem;" id="paypal-preview-box">
+        <div style="text-align:center;color:#94A3B8;font-size:.85rem;">💳 رابط PayPal للعربون</div>
+        <div class="paypal-amount" id="paypal-amount-display">$250</div>
+        <div style="text-align:center;margin-bottom:.5rem;font-size:.85rem;color:#94A3B8;" id="paypal-desc-display">عربون موقع WEBIQ.AI</div>
+        <a href="#" id="paypal-link" target="_blank" class="paypal-link">
+          <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_100x26.png" alt="PayPal" style="height:20px;vertical-align:middle;margin-left:.5rem;">
+          ادفع الآن عبر PayPal
+        </a>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn-paypal" onclick="sendDepositRequestWA()">📱 إرسال طلب العربون واتساب</button>
+        <button class="btn-gold" onclick="copyPaypalLink()">🔗 نسخ رابط PayPal</button>
+      </div>
+    </div>
+
+    <!-- PAYMENT STAGES TRACKER -->
+    <div class="card">
+      <div class="section-title-sm">📊 متابعة مراحل الدفع</div>
+      <div class="grid2">
+        <div class="field"><label>اختر المشروع</label>
+          <select id="stage-project-sel" onchange="loadProjectStage()">
+            <option value="">— اختر مشروعاً —</option>
+          </select>
+        </div>
+        <div class="field"><label>المرحلة الحالية</label>
+          <select id="stage-current">
+            <option value="new">🆕 جديد — في انتظار الموافقة</option>
+            <option value="deposit">💰 تم إرسال طلب العربون</option>
+            <option value="deposit-rcvd">✅ تم استلام العربون — بدء الأشغال</option>
+            <option value="work">⚡ قيد التنفيذ</option>
+            <option value="review">👁️ النسخة الأولى — مراجعة العميل</option>
+            <option value="final-payment">💳 طلب الدفعة النهائية</option>
+            <option value="done">🎉 مكتمل — تم التسليم</option>
+          </select>
+        </div>
+      </div>
+      <div class="btn-group">
+        <button class="btn-purple" onclick="updateProjectStage()">💾 تحديث المرحلة</button>
+        <button class="btn-wa" onclick="sendStageMessageWA()">📱 إرسال رسالة المرحلة</button>
+        <button class="btn-gold" onclick="sendFinalPaymentWA()">💰 طلب الدفعة النهائية</button>
+      </div>
+      <div id="stage-msg-preview" style="margin-top:1rem;"></div>
+    </div>
+
+    <!-- FINAL PAYMENT -->
+    <div class="card">
+      <div class="section-title-sm">🏁 مولّد رابط الدفعة النهائية</div>
+      <div class="grid3">
+        <div class="field"><label>اسم العميل</label><input id="fin-name" placeholder="محمد العلوي"></div>
+        <div class="field"><label>واتساب العميل</label><input id="fin-phone" placeholder="00212XXXXXXXXX"></div>
+        <div class="field"><label>مبلغ الدفعة النهائية ($)</label><input id="fin-amount" type="number" placeholder="250" oninput="updateFinalLink()"></div>
+      </div>
+      <div class="paypal-box" style="margin-top:1rem;">
+        <div style="text-align:center;color:#94A3B8;font-size:.85rem;">🏁 رابط الدفعة النهائية</div>
+        <div class="paypal-amount" id="fin-amount-display">$250</div>
+        <a href="#" id="final-paypal-link" target="_blank" class="paypal-link">ادفع الدفعة النهائية عبر PayPal</a>
+      </div>
+      <div class="btn-group">
+        <button class="btn-wa" onclick="sendFinalPaymentLinkWA()">📱 إرسال رابط الدفعة النهائية</button>
+        <button class="btn-gold" onclick="copyFinalLink()">🔗 نسخ الرابط</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ TAB 4: MESSAGES ══════════════ -->
+  <div class="tab-content" id="tab-messages">
+    <div class="grid2">
+
+      <div class="card">
+        <div class="section-title-sm">📤 رسالة طلب العربون</div>
+        <div class="field" style="margin-bottom:.8rem;"><label>اسم العميل</label><input id="m1-name" placeholder="محمد"></div>
+        <div class="field" style="margin-bottom:.8rem;"><label>مبلغ العربون ($)</label><input id="m1-amount" type="number" placeholder="250"></div>
+        <div class="field" style="margin-bottom:.8rem;"><label>رابط PayPal</label><input id="m1-link" placeholder="paypal.me/..."></div>
+        <div class="msg-preview" id="msg1-preview" style="min-height:120px;margin:.8rem 0;font-size:.8rem;"></div>
+        <div class="btn-group">
+          <button class="btn-purple" onclick="previewMsg(1)">🔄 معاينة</button>
+          <button class="btn-wa" onclick="sendMsg(1)">📱 إرسال</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title-sm">✅ تأكيد استلام العربون</div>
+        <div class="field" style="margin-bottom:.8rem;"><label>اسم العميل</label><input id="m2-name" placeholder="محمد"></div>
+        <div class="field" style="margin-bottom:.8rem;"><label>تاريخ التسليم</label><input id="m2-delivery" placeholder="25 يونيو 2025"></div>
+        <div class="field" style="margin-bottom:.8rem;"><label>واتساب العميل</label><input id="m2-phone" placeholder="00212XXXXXXXXX"></div>
+        <div class="msg-preview" id="msg2-preview" style="min-height:120px;margin:.8rem 0;font-size:.8rem;"></div>
+        <div class="btn-group">
+          <button class="btn-purple" onclick="previewMsg(2)">🔄 معاينة</button>
+          <button class="btn-wa" onclick="sendMsg(2)">📱 إرسال</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title-sm">👁️ إرسال النسخة الأولية</div>
+        <div class="field" style="margin-bottom:.8rem;"><label>اسم العميل</label><input id="m3-name" placeholder="محمد"></div>
+        <div class="field" style="margin-bottom:.8rem;"><label>رابط المعاينة</label><input id="m3-link" placeholder="https://yoursite.netlify.app"></div>
+        <div class="field" style="margin-bottom:.8rem;"><label>واتساب العميل</label><input id="m3-phone" placeholder="00212XXXXXXXXX"></div>
+        <div class="msg-preview" id="msg3-preview" style="min-height:120px;margin:.8rem 0;font-size:.8rem;"></div>
+        <div class="btn-group">
+          <button class="btn-purple" onclick="previewMsg(3)">🔄 معاينة</button>
+          <button class="btn-wa" onclick="sendMsg(3)">📱 إرسال</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title-sm">🎉 رسالة التسليم النهائي</div>
+        <div class="field" style="margin-bottom:.8rem;"><label>اسم العميل</label><input id="m4-name" placeholder="محمد"></div>
+        <div class="field" style="margin-bottom:.8rem;"><label>رابط الموقع النهائي</label><input id="m4-link" placeholder="https://yoursite.com"></div>
+        <div class="field" style="margin-bottom:.8rem;"><label>واتساب العميل</label><input id="m4-phone" placeholder="00212XXXXXXXXX"></div>
+        <div class="msg-preview" id="msg4-preview" style="min-height:120px;margin:.8rem 0;font-size:.8rem;"></div>
+        <div class="btn-group">
+          <button class="btn-purple" onclick="previewMsg(4)">🔄 معاينة</button>
+          <button class="btn-wa" onclick="sendMsg(4)">📱 إرسال</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /dashboard -->
+
+<!-- PROJECT MODAL -->
+<div class="modal-overlay" id="project-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title" id="modal-title">تفاصيل المشروع</div>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════
+// CONFIG
+// ══════════════════════════════════════
+const PASS      = 'webiq2025!';
+const PAYPAL_ME = 'khafir2017@gmail.com'; // PayPal email
+
+// ── Auth ──
+function checkLogin(){
+  if(document.getElementById('pwd-input').value===PASS){
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('dashboard').style.display='block';
+    initDashboard();
+  } else {
+    document.getElementById('login-err').style.display='block';
+  }
+}
+document.getElementById('pwd-input').addEventListener('keydown',e=>e.key==='Enter'&&checkLogin());
+function logout(){ location.reload(); }
+
+// ── Tabs ──
+function switchTab(tab){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  event.target.classList.add('active');
+  if(tab==='payment') updatePaypalLink();
+}
+
+// ══════════════════════════════════════
+// PROJECTS / PIPELINE
+// ══════════════════════════════════════
+let projects = JSON.parse(localStorage.getItem('webiq_projects')||'[]');
+
+function saveProjects(){ localStorage.setItem('webiq_projects', JSON.stringify(projects)); }
+
+function addProject(){
+  const name = document.getElementById('np-name').value.trim();
+  const phone = document.getElementById('np-phone').value.trim();
+  const biz = document.getElementById('np-biz').value.trim();
+  const type = document.getElementById('np-type').value;
+  const price = parseFloat(document.getElementById('np-price').value)||0;
+  const delivery = document.getElementById('np-delivery').value;
+  if(!name||!biz||!price){ showToast('⚠️ أدخل الاسم والنشاط والسعر'); return; }
+  const project = {
+    id: Date.now(),
+    name, phone, biz, type, price, delivery,
+    stage: 'new',
+    deposit: price/2,
+    final: price/2,
+    createdAt: new Date().toLocaleDateString('ar-MA'),
+    depositPaid: false,
+    finalPaid: false,
+  };
+  projects.push(project);
+  saveProjects();
+  renderPipeline();
+  updateStats();
+  populateProjectSelect();
+  ['np-name','np-phone','np-biz','np-price','np-delivery'].forEach(id=>document.getElementById(id).value='');
+  showToast('✅ تم إضافة المشروع');
+}
+
+function renderPipeline(){
+  const cols = {new:[],deposit:[],work:[],review:[],done:[]};
+  projects.forEach(p=>{
+    const stage = ['deposit-rcvd','work'].includes(p.stage)?'work':
+                  p.stage==='final-payment'?'review':
+                  p.stage==='done'?'done':
+                  ['new','deposit'].includes(p.stage)?p.stage:'new';
+    if(cols[stage]) cols[stage].push(p);
+  });
+  const stageMap = {new:'col-new',deposit:'col-deposit',work:'col-work',review:'col-review',done:'col-done'};
+  Object.keys(stageMap).forEach(s=>{
+    const el = document.getElementById(stageMap[s]);
+    el.innerHTML = cols[s].map(p=>`
+      <div class="project-card" onclick="openProject(${p.id})">
+        <div class="p-name">${p.name}</div>
+        <div class="p-biz">🏢 ${p.biz}</div>
+        <div class="p-price">💵 $${p.price} | عربون: $${p.deposit}</div>
+        <div class="p-date">📅 ${p.createdAt}</div>
+      </div>`).join('');
+  });
+}
+
+function updateStats(){
+  const total = projects.length;
+  const active = projects.filter(p=>!['done','new'].includes(p.stage)).length;
+  const revenue = projects.filter(p=>p.stage==='done').reduce((s,p)=>s+p.price,0);
+  const pending = projects.filter(p=>p.stage!=='done').reduce((s,p)=>s+p.price,0);
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-active').textContent = active;
+  document.getElementById('stat-revenue').textContent = `$${revenue}`;
+  document.getElementById('stat-pending').textContent = `$${pending}`;
+}
+
+function populateProjectSelect(){
+  const sel = document.getElementById('stage-project-sel');
+  sel.innerHTML = '<option value="">— اختر مشروعاً —</option>' +
+    projects.map(p=>`<option value="${p.id}">${p.name} — ${p.biz} ($${p.price})</option>`).join('');
+}
+
+function loadProjectStage(){
+  const id = parseInt(document.getElementById('stage-project-sel').value);
+  const p = projects.find(x=>x.id===id);
+  if(p) document.getElementById('stage-current').value = p.stage;
+}
+
+function updateProjectStage(){
+  const id = parseInt(document.getElementById('stage-project-sel').value);
+  const stage = document.getElementById('stage-current').value;
+  const p = projects.find(x=>x.id===id);
+  if(!p){ showToast('⚠️ اختر مشروعاً أولاً'); return; }
+  p.stage = stage;
+  if(stage==='deposit-rcvd') p.depositPaid = true;
+  if(stage==='done') p.finalPaid = true;
+  saveProjects();
+  renderPipeline();
+  updateStats();
+  showToast('✅ تم تحديث مرحلة المشروع');
+}
+
+function openProject(id){
+  const p = projects.find(x=>x.id===id);
+  if(!p) return;
+  document.getElementById('modal-title').textContent = `${p.biz} — ${p.name}`;
+  document.getElementById('modal-content').innerHTML = `
+    <div style="display:grid;gap:.8rem;font-size:.9rem;">
+      <div style="display:flex;justify-content:space-between;"><span style="color:#94A3B8;">العميل</span><strong>${p.name}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:#94A3B8;">واتساب</span><a href="https://wa.me/${p.phone}" target="_blank" style="color:#25D366;">${p.phone}</a></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:#94A3B8;">النشاط</span><strong>${p.biz}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:#94A3B8;">نوع الموقع</span><span>${p.type}</span></div>
+      <div style="display:flex;justify-content:space-between;border-top:1px solid rgba(124,58,237,.2);padding-top:.8rem;margin-top:.2rem;"><span style="color:#94A3B8;">السعر الإجمالي</span><strong style="color:#F59E0B;font-size:1.1rem;">$${p.price}</strong></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:#94A3B8;">العربون (50%)</span><span style="color:${p.depositPaid?'#28C840':'#F59E0B'};">${p.depositPaid?'✅ مدفوع':'⏳ معلّق'} — $${p.deposit}</span></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:#94A3B8;">الدفعة النهائية</span><span style="color:${p.finalPaid?'#28C840':'#94A3B8'};">${p.finalPaid?'✅ مدفوعة':'⏳ عند التسليم'} — $${p.final}</span></div>
+      <div style="display:flex;justify-content:space-between;"><span style="color:#94A3B8;">التسليم</span><span>${p.delivery||'—'}</span></div>
+      <div style="display:flex;gap:.7rem;margin-top:.5rem;flex-wrap:wrap;">
+        <button class="btn-paypal" onclick="quickDepositWA(${p.id})">💳 طلب العربون</button>
+        <button class="btn-wa" onclick="quickFinalWA(${p.id})">🏁 طلب الدفعة النهائية</button>
+        <button class="btn-red" onclick="deleteProject(${p.id})">🗑️ حذف</button>
+      </div>
+    </div>`;
+  document.getElementById('project-modal').classList.add('open');
+}
+
+function deleteProject(id){
+  if(!confirm('هل أنت متأكد من حذف هذا المشروع؟')) return;
+  projects = projects.filter(p=>p.id!==id);
+  saveProjects(); renderPipeline(); updateStats(); populateProjectSelect();
+  closeModal(); showToast('🗑️ تم حذف المشروع');
+}
+
+function closeModal(){ document.getElementById('project-modal').classList.remove('open'); }
+document.getElementById('project-modal').addEventListener('click', e=>{ if(e.target===document.getElementById('project-modal')) closeModal(); });
+
+// ══════════════════════════════════════
+// PAYPAL LINKS
+// ══════════════════════════════════════
+function makePaypalLink(amount, currency, description){
+  const desc = encodeURIComponent(description || 'WEBIQ.AI Payment');
+  return `https://www.paypal.com/paypalme/khafir2017/${amount}${currency}?note=${desc}`;
+}
+
+function updatePaypalLink(){
+  const amount = document.getElementById('pay-amount').value || '250';
+  const currency = document.getElementById('pay-currency').value || 'USD';
+  const desc = document.getElementById('pay-desc').value || 'عربون موقع WEBIQ.AI';
+  const biz = document.getElementById('pay-biz').value;
+  const symbol = {USD:'$',EUR:'€',GBP:'£',CAD:'CA$'}[currency]||'$';
+  document.getElementById('paypal-amount-display').textContent = `${symbol}${amount}`;
+  document.getElementById('paypal-desc-display').textContent = desc + (biz?` — ${biz}`:'');
+  const link = makePaypalLink(amount, currency, desc+(biz?` - ${biz}`:''));
+  document.getElementById('paypal-link').href = link;
+}
+
+function updateFinalLink(){
+  const amount = document.getElementById('fin-amount').value || '250';
+  document.getElementById('fin-amount-display').textContent = `$${amount}`;
+  const link = makePaypalLink(amount, 'USD', 'WEBIQ.AI Final Payment');
+  document.getElementById('final-paypal-link').href = link;
+}
+
+function copyPaypalLink(){
+  navigator.clipboard.writeText(document.getElementById('paypal-link').href);
+  showToast('🔗 تم نسخ رابط PayPal');
+}
+
+function copyFinalLink(){
+  navigator.clipboard.writeText(document.getElementById('final-paypal-link').href);
+  showToast('🔗 تم نسخ رابط الدفعة النهائية');
+}
+
+function sendDepositRequestWA(){
+  const name = document.getElementById('pay-name').value || 'العميل';
+  const phone = document.getElementById('pay-phone').value;
+  const amount = document.getElementById('pay-amount').value || '250';
+  const biz = document.getElementById('pay-biz').value || 'مشروعك';
+  const link = document.getElementById('paypal-link').href;
+  if(!phone){ showToast('⚠️ أدخل رقم واتساب العميل'); return; }
+  const msg = buildDepositMsg(name, amount, biz, link);
+  window.open(`https://wa.me/${phone.replace(/\s+/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
+  showToast('📱 فتح واتساب...');
+}
+
+function sendFinalPaymentLinkWA(){
+  const name = document.getElementById('fin-name').value || 'العميل';
+  const phone = document.getElementById('fin-phone').value;
+  const amount = document.getElementById('fin-amount').value || '250';
+  const link = document.getElementById('final-paypal-link').href;
+  if(!phone){ showToast('⚠️ أدخل رقم واتساب العميل'); return; }
+  const msg = buildFinalMsg(name, amount, link);
+  window.open(`https://wa.me/${phone.replace(/\s+/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// Quick actions from modal
+function quickDepositWA(id){
+  const p = projects.find(x=>x.id===id);
+  if(!p) return;
+  const link = makePaypalLink(p.deposit, 'USD', `عربون موقع ${p.biz} — WEBIQ.AI`);
+  const msg = buildDepositMsg(p.name, p.deposit, p.biz, link);
+  window.open(`https://wa.me/${p.phone.replace(/\s+/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
+  closeModal();
+}
+
+function quickFinalWA(id){
+  const p = projects.find(x=>x.id===id);
+  if(!p) return;
+  const link = makePaypalLink(p.final, 'USD', `دفعة نهائية موقع ${p.biz} — WEBIQ.AI`);
+  const msg = buildFinalMsg(p.name, p.final, link);
+  window.open(`https://wa.me/${p.phone.replace(/\s+/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
+  closeModal();
+}
+
+// ══════════════════════════════════════
+// PRICE CALC
+// ══════════════════════════════════════
+function calcPrice(){
+  const pkg = document.getElementById('q-package').value;
+  const custom = parseFloat(document.getElementById('q-custom').value)||0;
+  const disc = parseFloat(document.getElementById('q-discount').value)||0;
+  const urgency = document.getElementById('q-urgency').value;
+  let base = pkg==='custom'?custom:parseFloat(pkg);
+  let urgent = urgency==='urgent'?Math.round(base*.3):0;
+  let subtotal = base+urgent;
+  let discAmt = Math.round(subtotal*disc/100);
+  let total = subtotal-discAmt;
+  document.getElementById('pr-base').textContent=`$${base}`;
+  document.getElementById('pr-urgent').textContent=`+$${urgent}`;
+  document.getElementById('pr-urgent-row').style.display=urgent?'flex':'none';
+  document.getElementById('pr-disc').textContent=`-$${discAmt}`;
+  document.getElementById('pr-disc-row').style.display=discAmt?'flex':'none';
+  document.getElementById('pr-total').textContent=`$${total}`;
+  document.getElementById('pr-upfront').textContent=`$${Math.round(total/2)}`;
+  document.getElementById('pr-final').textContent=`$${Math.round(total/2)}`;
+  return {base,urgent,discAmt,total,upfront:Math.round(total/2)};
+}
+
+function getFinalPrice(){ return document.getElementById('pr-total').textContent; }
+function getUpfront(){ return document.getElementById('pr-upfront').textContent; }
+
+// ══════════════════════════════════════
+// QUOTE BUILDER
+// ══════════════════════════════════════
+function buildQuote(){
+  const name=document.getElementById('q-name').value||'العميل الكريم';
+  const biz=document.getElementById('q-biz').value||'';
+  const sector=document.getElementById('q-sector').value||'';
+  const siteType=document.getElementById('q-site-type').value;
+  const features=document.getElementById('q-features').value||'';
+  const delivery=document.getElementById('q-delivery').value||'—';
+  const validity=document.getElementById('q-validity').value;
+  const includes=document.getElementById('q-includes').value||'';
+  const note=document.getElementById('q-note').value;
+  const price=getFinalPrice();
+  const upfront=getUpfront();
+  const today=new Date().toLocaleDateString('ar-MA',{year:'numeric',month:'long',day:'numeric'});
+  const qNum=`WQ-${Date.now().toString().slice(-6)}`;
+  const paypalLink = makePaypalLink(upfront.replace('$',''),'USD',`عربون موقع ${biz} — WEBIQ.AI`);
+  const inclList = includes.split('\n').filter(l=>l.trim()).map(l=>`  ${l.trim()}`).join('\n');
+
+return `╔═══════════════════════════════════════╗
+║    🌐 عرض سعر رسمي — WEBIQ.AI        ║
+║    رقم العرض: ${qNum.padEnd(22)}║
+╚═══════════════════════════════════════╝
+
+مرحباً ${name} 👋
+${note?'\n'+note+'\n':''}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 تفاصيل المشروع
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• النشاط: ${biz} (${sector})
+• نوع الموقع: ${siteType}
+• الميزات: ${features}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ ما يشمله هذا العرض
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${inclList}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💰 التسعير والأداء
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• السعر الإجمالي: *${price}*
+• 🤝 عربون لبدء الأشغال (50%): ${upfront}
+• 🏁 دفعة نهائية عند التسليم (50%): ${upfront}
+
+💳 رابط دفع العربون عبر PayPal:
+${paypalLink}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎁 ضمانات WEBIQ.AI
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✦ 3 جولات تعديل مجانية
+✦ دعم تقني 30 يوماً بعد التسليم
+✦ استضافة مجانية — السنة الأولى
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📅 الجدول الزمني
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• تاريخ العرض: ${today}
+• التسليم المتوقع: ${delivery}
+• صلاحية العرض: ${validity} يوماً
+
+للموافقة: ادفع العربون عبر الرابط أعلاه
+📱 أي استفسار: +212 609 018 612
+
+*WEBIQ.AI — مواقع ذكية تبيع وأنت نائم* 🌍`;
+}
+
+function generatePreview(){ document.getElementById('quote-preview').textContent=buildQuote(); showToast('✅ تم توليد العرض'); }
+
+function sendQuoteWA(){
+  const phone=document.getElementById('q-phone').value;
+  if(!phone){showToast('⚠️ أدخل رقم واتساب العميل');return;}
+  window.open(`https://wa.me/${phone.replace(/\s+/g,'')}?text=${encodeURIComponent(buildQuote())}`, '_blank');
+  showToast('📱 فتح واتساب...');
+}
+
+function copyQuote(){ navigator.clipboard.writeText(buildQuote()).then(()=>showToast('📋 تم نسخ النص')); }
+
+// ══════════════════════════════════════
+// STAGE MESSAGES
+// ══════════════════════════════════════
+function sendStageMessageWA(){
+  const id=parseInt(document.getElementById('stage-project-sel').value);
+  const stage=document.getElementById('stage-current').value;
+  const p=projects.find(x=>x.id===id);
+  if(!p){showToast('⚠️ اختر مشروعاً');return;}
+  const msgs={
+    'new': `مرحباً ${p.name} 👋\n\nشكراً لاهتمامك بخدمات WEBIQ.AI!\nراجعنا مشروعك وسنرسل لك عرض سعر رسمي قريباً.\n\nWEBIQ.AI 🌍`,
+    'deposit': buildDepositMsg(p.name, p.deposit, p.biz, makePaypalLink(p.deposit,'USD',`عربون موقع ${p.biz}`)),
+    'deposit-rcvd': `✅ مرحباً ${p.name}!\n\nاستلمنا العربون بنجاح — شكراً!\n🚀 الأشغال انطلقت رسمياً الآن\n📅 موعد التسليم: ${p.delivery||'قريباً'}\n\nسنبقيك على اطلاع بكل مرحلة 💪\n\nWEBIQ.AI 🌍`,
+    'work': `مرحباً ${p.name} 👋\n\nتحديث مشروع *${p.biz}*:\n⚡ الأشغال جارية بكامل الطاقة\n📊 النسبة المنجزة: 60%\n📅 التسليم المتوقع: ${p.delivery||'قريباً'}\n\nWEBIQ.AI 🌍`,
+    'review': `مرحباً ${p.name} 🎨\n\nموقعك الأول جاهز للمراجعة!\n\n👉 راجع كل شيء بعناية وأرسل ملاحظاتك\n✏️ لديك 3 جولات تعديل مجانية\n\nWEBIQ.AI 🌍`,
+    'final-payment': buildFinalMsg(p.name, p.final, makePaypalLink(p.final,'USD',`دفعة نهائية موقع ${p.biz}`)),
+    'done': `🎉 مبروك ${p.name}!\n\nموقعك *${p.biz}* أُطلق رسمياً! 🚀\n\nشكراً لثقتك في WEBIQ.AI\nلا تتردد في التواصل للدعم أو أي خدمة مستقبلية 🤝\n\nWEBIQ.AI — مواقع ذكية تبيع وأنت نائم 🌍`
+  };
+  const msg=msgs[stage];
+  if(msg){
+    document.getElementById('stage-msg-preview').innerHTML=`<div class="msg-preview">${msg}</div>`;
+    window.open(`https://wa.me/${p.phone.replace(/\s+/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
+    showToast('📱 فتح واتساب...');
+  }
+}
+
+function sendFinalPaymentWA(){
+  const id=parseInt(document.getElementById('stage-project-sel').value);
+  const p=projects.find(x=>x.id===id);
+  if(!p){showToast('⚠️ اختر مشروعاً');return;}
+  const link=makePaypalLink(p.final,'USD',`دفعة نهائية موقع ${p.biz}`);
+  const msg=buildFinalMsg(p.name,p.final,link);
+  window.open(`https://wa.me/${p.phone.replace(/\s+/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// ══════════════════════════════════════
+// MESSAGE TEMPLATES
+// ══════════════════════════════════════
+function buildDepositMsg(name, amount, biz, paypalLink, clientType){
+  const isLocal = clientType === 'local';
+  const paySection = isLocal ?
+`💳 طرق الدفع المتاحة:
+① وفا كاش / بريد كاش:
+   الاسم: *${OWNER.fullName}*
+   
+② تحويل بنكي (RIB):
+   *${OWNER.rib}*
+   المستفيد: ${OWNER.fullName}
+   المبلغ: ${amount} درهم
+
+بعد الدفع أرسل لنا إيصال الدفع 📸` :
+`💳 طرق الدفع المتاحة:
+① PayPal (الأسرع):
+${paypalLink}
+
+② تحويل بنكي دولي:
+   IBAN: *${OWNER.iban}*
+   SWIFT: *${OWNER.swift}*
+   Beneficiary: ${OWNER.fullName}
+   Amount: $${amount}
+
+After payment, send us the receipt 📸`;
+
+return `مرحباً ${name} 👋
+
+يسعدنا إطلاق مشروع *${biz}* معك! 🚀
+
+💰 لبدء الأشغال فوراً، نحتاج العربون:
+• المبلغ: *${isLocal ? amount+' درهم' : '$'+amount}* (50% من إجمالي المشروع)
+
+${paySection}
+
+✅ بعد استلام العربون:
+• نبدأ الأشغال خلال 24 ساعة ⚡
+• تتلقى تحديثاً بكل مرحلة
+• تسليم في الموعد المحدد 📅
+
+🔒 معاملة آمنة 100%
+📱 أي سؤال: +212 609 018 612
+
+*WEBIQ.AI — نبني حضورك الرقمي* 🌍`;
+}
+
+function buildFinalMsg(name,amount,paypalLink){
+return `مرحباً ${name} 🎉
+
+موقعك جاهز 100% وتمت الموافقة عليه! ✅
+
+🏁 الخطوة الأخيرة — الدفعة النهائية:
+• المبلغ: *$${amount}*
+
+💳 ادفع عبر PayPal:
+${paypalLink}
+
+بعد الاستلام نسلّمك فوراً:
+✦ رابط موقعك النهائي 🌐
+✦ بيانات الاستضافة الكاملة
+✦ دليل إدارة الموقع
+✦ دعم تقني 30 يوماً مجاناً 🛡️
+
+*WEBIQ.AI — مواقع ذكية تبيع وأنت نائم* 🌍`;
+}
+
+// ══════════════════════════════════════
+// TAB 4: READY MESSAGES
+// ══════════════════════════════════════
+const MSG_TEMPLATES = {
+  1: (n,a,l) => buildDepositMsg(n,a,'مشروعك',l),
+  2: (n,d) => `✅ مرحباً ${n}!\n\nاستلمنا العربون — شكراً! 🙏\n\n🚀 الأشغال انطلقت رسمياً\n📅 موعد التسليم: ${d}\n\nسنبقيك على اطلاع بكل خطوة 💪\n\nWEBIQ.AI 🌍`,
+  3: (n,l) => `مرحباً ${n} 🎨\n\nموقعك الأول جاهز للمراجعة!\n\n🔗 رابط المعاينة:\n${l}\n\n✏️ راجع كل شيء وأرسل ملاحظاتك\nلديك 3 جولات تعديل مجانية ✨\n\nWEBIQ.AI 🌍`,
+  4: (n,l) => `🎉 مبروك ${n}!\n\nموقعك أُطلق رسمياً! 🚀\n\n🌐 رابطك:\n${l}\n\nشكراً لثقتك في WEBIQ.AI 🤝\nنحن دائماً في خدمتك!\n\nWEBIQ.AI 🌍`,
+};
+
+function previewMsg(num){
+  let msg='';
+  if(num===1) msg=MSG_TEMPLATES[1](document.getElementById('m1-name').value||'العميل',document.getElementById('m1-amount').value||'250',document.getElementById('m1-link').value||'paypal.me/link');
+  if(num===2) msg=MSG_TEMPLATES[2](document.getElementById('m2-name').value||'العميل',document.getElementById('m2-delivery').value||'قريباً');
+  if(num===3) msg=MSG_TEMPLATES[3](document.getElementById('m3-name').value||'العميل',document.getElementById('m3-link').value||'https://site.netlify.app');
+  if(num===4) msg=MSG_TEMPLATES[4](document.getElementById('m4-name').value||'العميل',document.getElementById('m4-link').value||'https://yoursite.com');
+  document.getElementById(`msg${num}-preview`).textContent=msg;
+}
+
+function sendMsg(num){
+  const phones={1:'m1-name',2:'m2-phone',3:'m3-phone',4:'m4-phone'};
+  // reuse name field as phone for msg1, others have phone field
+  const phoneId = num===1?'m1-name':'m'+num+'-phone';
+  // Actually get phone differently:
+  const phoneField = document.getElementById(num===1?'m1-name':(`m${num}-phone`));
+  // msg1 has no phone field, use a prompt
+  let phone='';
+  if(num===1){
+    phone=prompt('أدخل رقم واتساب العميل:','00212');
+  } else {
+    phone=document.getElementById(`m${num}-phone`).value;
+  }
+  if(!phone){showToast('⚠️ أدخل رقم واتساب');return;}
+  previewMsg(num);
+  const msg=document.getElementById(`msg${num}-preview`).textContent;
+  window.open(`https://wa.me/${phone.replace(/\s+/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
+  showToast('📱 فتح واتساب...');
+}
+
+// ══════════════════════════════════════
+// PDF
+// ══════════════════════════════════════
+function downloadPDF(){
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  doc.setFillColor(124,58,237); doc.rect(0,0,210,42,'F');
+  doc.setFillColor(245,158,11); doc.roundedRect(15,9,22,22,2,2,'F');
+  doc.setTextColor(124,58,237); doc.setFontSize(14); doc.setFont('helvetica','bold');
+  doc.text('W',26,23,{align:'center'});
+  doc.setTextColor(255,255,255); doc.setFontSize(20); doc.setFont('helvetica','bold');
+  doc.text('WEBIQ.AI',44,20);
+  doc.setFontSize(9); doc.setFont('helvetica','normal');
+  doc.text('Official Price Quotation | webiq.ai | +212 609 018 612',44,28);
+  const qNum=`WQ-${Date.now().toString().slice(-6)}`;
+  doc.setFontSize(9); doc.text(qNum,195,18,{align:'right'});
+  doc.text(new Date().toLocaleDateString('en-GB'),195,26,{align:'right'});
+
+  let y=52;
+  const clientName=document.getElementById('q-name').value||'Client';
+  const phone=document.getElementById('q-phone').value||'—';
+  const biz=document.getElementById('q-biz').value||'—';
+  const city=document.getElementById('q-city').value||'—';
+  const total=getFinalPrice(); const upfront=getUpfront();
+  const payLink=makePaypalLink(upfront.replace('$',''),'USD',`عربون موقع ${biz}`);
+
+  doc.setFillColor(17,17,24); doc.roundedRect(15,y,180,32,3,3,'F');
+  doc.setDrawColor(124,58,237); doc.setLineWidth(.5); doc.roundedRect(15,y,180,32,3,3,'S');
+  doc.setTextColor(148,163,184); doc.setFontSize(7); doc.text('CLIENT',20,y+7);
+  doc.setTextColor(248,250,252); doc.setFontSize(13); doc.setFont('helvetica','bold'); doc.text(clientName,20,y+15);
+  doc.setFontSize(8); doc.setFont('helvetica','normal'); doc.setTextColor(148,163,184);
+  doc.text(`${biz} | ${phone} | ${city}`,20,y+23);
+  y+=40;
+
+  doc.setFillColor(26,26,36); doc.roundedRect(15,y,85,50,3,3,'F');
+  doc.setTextColor(159,103,255); doc.setFontSize(7); doc.setFont('helvetica','bold'); doc.text('PROJECT',20,y+8);
+  doc.setTextColor(203,213,225); doc.setFont('helvetica','normal'); doc.setFontSize(8);
+  doc.text(`Type: ${document.getElementById('q-site-type').value.substring(0,28)}`,20,y+16);
+  doc.text(`Features: ${(document.getElementById('q-features').value||'—').substring(0,28)}`,20,y+23);
+  doc.text(`Delivery: ${document.getElementById('q-delivery').value||'—'}`,20,y+30);
+  doc.text(`Validity: ${document.getElementById('q-validity').value} days`,20,y+37);
+  doc.text(`Quote #: ${qNum}`,20,y+44);
+
+  doc.setFillColor(245,158,11); doc.roundedRect(110,y,85,50,3,3,'F');
+  doc.setTextColor(10,10,15); doc.setFontSize(7); doc.setFont('helvetica','bold'); doc.text('TOTAL',115,y+8);
+  doc.setFontSize(26); doc.text(total,152,y+28,{align:'center'});
+  doc.setFontSize(8); doc.setFont('helvetica','normal');
+  doc.text(`Deposit (50%): ${upfront}`,115,y+38);
+  doc.text(`Final (50%): ${upfront}`,115,y+45);
+  y+=58;
+
+  const incl=document.getElementById('q-includes').value.split('\n').filter(l=>l.trim());
+  if(incl.length){
+    doc.setFillColor(17,17,24); doc.roundedRect(15,y,180,12+incl.length*8,3,3,'F');
+    doc.setTextColor(159,103,255); doc.setFontSize(7); doc.setFont('helvetica','bold'); doc.text('INCLUDED',20,y+8);
+    doc.setTextColor(203,213,225); doc.setFont('helvetica','normal');
+    incl.forEach((l,i)=>{
+      doc.setFillColor(245,158,11); doc.circle(21,y+14+i*8,1,'F');
+      doc.text(l.replace(/^[•\-\*]\s*/,'').substring(0,78),25,y+15+i*8);
+    });
+    y+=16+incl.length*8;
+  }
+  y+=5;
+
+  doc.setFillColor(0,48,135); doc.roundedRect(15,y,180,22,3,3,'F');
+  doc.setTextColor(255,255,255); doc.setFontSize(8); doc.setFont('helvetica','bold');
+  doc.text('💳 PAY DEPOSIT VIA PAYPAL:',20,y+8);
+  doc.setFont('helvetica','normal'); doc.setFontSize(7);
+  doc.text(payLink.substring(0,90),20,y+15);
+
+  doc.setFillColor(124,58,237); doc.rect(0,275,210,22,'F');
+  doc.setTextColor(255,255,255); doc.setFontSize(9); doc.setFont('helvetica','bold');
+  doc.text('WEBIQ.AI',105,283,{align:'center'});
+  doc.setFont('helvetica','normal'); doc.setFontSize(7);
+  doc.text('+212 609 018 612  |  webiq.ai  |  Smart websites that sell 24/7',105,289,{align:'center'});
+
+  doc.save(`WEBIQ_Quote_${clientName.replace(/\s+/g,'_')}_${qNum}.pdf`);
+  showToast('📄 تم تحميل PDF!');
+}
+
+// ══════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+function initDashboard(){
+  renderPipeline();
+  updateStats();
+  populateProjectSelect();
+  calcPrice();
+  updatePaypalLink();
+  updateFinalLink();
+  // Set default delivery date
+  const d=new Date(); d.setDate(d.getDate()+7);
+  document.getElementById('q-delivery').value=d.toLocaleDateString('ar-MA',{year:'numeric',month:'long',day:'numeric'});
+  // ── الرابط السحري — قراءة بيانات العميل من URL ──
+  readMagicLink();
+}
+
+// ══════════════════════════════════════
+// PAYMENT INFO — بيانات أحمد سالم
+// ══════════════════════════════════════
+const OWNER = {
+  fullName:  'Ameur Hadad Ahmed Salem',
+  rib:       '0078100001605000302982279',
+  iban:      'MA640078100001605000302982279',
+  swift:     'BCMAMAMC',
+  paypal:    'khafir2017@gmail.com',
+  whatsapp:  '00212609018612',
+};
+
+// كشف نوع العميل (محلي / دولي)
+function detectClientType(phone, city) {
+  const localPhone = /^(00212|\+212|06|07|05)/.test((phone||'').replace(/\s/g,''));
+  const localCity  = city && city !== 'خارج المغرب';
+  return (localPhone || localCity) ? 'local' : 'international';
+}
+
+// بناء بطاقة طريقة الدفع
+function buildPaymentCard(clientType, amount, biz) {
+  if (clientType === 'local') {
+    return `
+    <div style="background:linear-gradient(135deg,rgba(40,200,64,.1),rgba(40,200,64,.05));border:1px solid rgba(40,200,64,.25);border-radius:12px;padding:1.2rem;margin-bottom:1rem;">
+      <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:1rem;">
+        <span style="font-size:1.3rem;">🇲🇦</span>
+        <span style="font-weight:700;color:#28C840;">عميل محلي — طرق الدفع المغربية</span>
+      </div>
+      <div style="display:grid;gap:.7rem;font-size:.85rem;">
+        <div style="background:rgba(0,0,0,.3);border-radius:8px;padding:.8rem;">
+          <div style="color:#94A3B8;font-size:.75rem;margin-bottom:.3rem;">💳 وفا كاش / بريد كاش</div>
+          <div style="font-weight:700;">${OWNER.fullName}</div>
+          <div style="color:#94A3B8;font-size:.75rem;margin-top:.2rem;">يُقدّم العميل هذا الاسم في أقرب وكالة</div>
+        </div>
+        <div style="background:rgba(0,0,0,.3);border-radius:8px;padding:.8rem;">
+          <div style="color:#94A3B8;font-size:.75rem;margin-bottom:.3rem;">🏦 تحويل بنكي (RIB)</div>
+          <div style="font-weight:700;font-family:monospace;font-size:.82rem;letter-spacing:.03em;">${OWNER.rib}</div>
+          <div style="color:#F59E0B;font-size:.78rem;margin-top:.3rem;">المبلغ: ${amount} درهم</div>
+        </div>
+      </div>
+    </div>`;
+  } else {
+    const paypalLink = makePaypalLink(amount, 'USD', `عربون موقع ${biz} — WEBIQ.AI`);
+    return `
+    <div style="background:linear-gradient(135deg,rgba(0,48,135,.15),rgba(0,112,243,.08));border:1px solid rgba(0,112,243,.3);border-radius:12px;padding:1.2rem;margin-bottom:1rem;">
+      <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:1rem;">
+        <span style="font-size:1.3rem;">🌍</span>
+        <span style="font-weight:700;color:#60a5fa;">عميل دولي — طرق الدفع الدولية</span>
+      </div>
+      <div style="display:grid;gap:.7rem;font-size:.85rem;">
+        <div style="background:rgba(0,48,135,.3);border-radius:8px;padding:.8rem;">
+          <div style="color:#94A3B8;font-size:.75rem;margin-bottom:.3rem;">💳 PayPal (الأسرع)</div>
+          <div style="font-weight:700;">${OWNER.paypal}</div>
+          <a href="${paypalLink}" target="_blank" style="display:inline-block;margin-top:.5rem;background:#0070f3;color:white;padding:.3rem .8rem;border-radius:6px;text-decoration:none;font-size:.78rem;font-weight:700;">فتح رابط الدفع ↗</a>
+        </div>
+        <div style="background:rgba(0,0,0,.3);border-radius:8px;padding:.8rem;">
+          <div style="color:#94A3B8;font-size:.75rem;margin-bottom:.4rem;">🏦 تحويل بنكي دولي (IBAN)</div>
+          <div style="font-size:.78rem;line-height:1.8;">
+            <span style="color:#94A3B8;">IBAN: </span><span style="font-family:monospace;font-weight:700;">${OWNER.iban}</span><br>
+            <span style="color:#94A3B8;">SWIFT: </span><span style="font-family:monospace;font-weight:700;">${OWNER.swift}</span><br>
+            <span style="color:#94A3B8;">Bénéficiaire: </span><span style="font-weight:700;">${OWNER.fullName}</span>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }
+}
+
+function readMagicLink(){
+  const params = new URLSearchParams(window.location.search);
+  if(!params.get('name')) return;
+
+  const name     = params.get('name') || '';
+  const phone    = params.get('phone') || '';
+  const email    = params.get('email') || '';
+  const city     = params.get('city') || '';
+  const biz      = params.get('biz') || '';
+  const sector   = params.get('sector') || '';
+  const type     = params.get('type') || '';
+  const budget   = params.get('budget') || '';
+  const urgency  = params.get('urgency') || '';
+  const features = params.get('features') || '';
+
+  const priceMap = {
+    '200-400':  { A:300,  B:450,  C:1200, D:1500 },
+    '400-800':  { A:600,  B:900,  C:2000, D:2500 },
+    '800-1500': { A:1000, B:1400, C:3500, D:4500 },
+    '1500+':    { A:1500, B:2000, C:6000, D:8000 },
+    'discuss':  { A:500,  B:700,  C:2000, D:2500 },
+  };
+
+  // كشف المنطقة الجغرافية للعميل من رقم الهاتف والمدينة
+  const isLocal = detectClientType(phone, city) === 'local';
+  const phoneClean = (phone||'').replace(/\s/g,'');
+  let clientZone = 'A'; // default Maghreb
+  if (!isLocal) {
+    // Gulf numbers
+    if (/^(00971|\+971|00966|\+966|00974|\+974|00965|\+965)/.test(phoneClean)) clientZone = 'C';
+    // European/American numbers
+    else if (/^(0033|\+33|0044|\+44|001|\+1|0049|\+49)/.test(phoneClean)) clientZone = 'D';
+    // Other international
+    else clientZone = 'B';
+  }
+
+  const zonePrices = priceMap[budget] || priceMap['discuss'];
+  const price = zonePrices[clientZone] || zonePrices['A'];
+  const upfront = Math.round(price/2);
+
+  const zoneLabels = { A:'🇲🇦 Maghreb', B:'🌍 Africa/ME', C:'🇦🇪 Gulf — Premium', D:'🌐 International' };
+  const zoneColors = { A:'#28C840', B:'#F59E0B', C:'#00b4d8', D:'#9F67FF' };
+
+  // ── كشف نوع العميل ──
+  const clientType  = detectClientType(phone, city);
+  const isLocal     = clientType === 'local';
+  const clientFlag  = isLocal ? '🇲🇦 محلي' : '🌍 دولي';
+  const clientColor = isLocal ? '#28C840' : '#60a5fa';
+
+  // ── بطاقة الدفع الذكية ──
+  const paymentCard = buildPaymentCard(clientType, upfront, biz);
+
+  document.getElementById('modal-title').innerHTML =
+    `⚡ طلب جديد &nbsp;<span style="font-size:.8rem;background:rgba(124,58,237,.2);padding:.2rem .6rem;border-radius:20px;color:${clientColor};">${clientFlag}</span>&nbsp;<span style="font-size:.75rem;background:rgba(${clientZone==='C'?'0,180,216':'124,58,237'},.15);padding:.2rem .6rem;border-radius:20px;color:${zoneColors[clientZone]};">${zoneLabels[clientZone]}</span>`;
+
+  document.getElementById('modal-content').innerHTML = `
+
+    <!-- بيانات العميل -->
+    <div style="background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.2);border-radius:12px;padding:1.1rem;margin-bottom:1rem;">
+      <div style="font-size:.78rem;color:#9F67FF;font-weight:700;margin-bottom:.7rem;">📋 بيانات العميل</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.4rem;font-size:.83rem;">
+        <div><span style="color:#64748B;">الاسم: </span><strong>${name}</strong></div>
+        <div><span style="color:#64748B;">واتساب: </span><a href="https://wa.me/${phone}" target="_blank" style="color:#25D366;font-weight:700;">${phone}</a></div>
+        <div><span style="color:#64748B;">المدينة: </span><span>${city}</span></div>
+        <div><span style="color:#64748B;">الإيميل: </span><span style="font-size:.78rem;">${email||'—'}</span></div>
+        <div><span style="color:#64748B;">النشاط: </span><strong>${biz}</strong></div>
+        <div><span style="color:#64748B;">القطاع: </span><span>${sector}</span></div>
+        <div><span style="color:#64748B;">الموقع: </span><span>${type}</span></div>
+        <div><span style="color:#64748B;">الميزانية: </span><strong style="color:#F59E0B;">${budget}</strong></div>
+        <div style="grid-column:1/-1"><span style="color:#64748B;">الميزات: </span><span style="font-size:.77rem;">${features}</span></div>
+      </div>
+    </div>
+
+    <!-- السعر المقترح حسب المنطقة -->
+    <div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:10px;padding:.8rem 1rem;margin-bottom:1rem;">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <span style="color:#94A3B8;font-size:.8rem;">💰 السعر المقترح</span>
+          <div style="font-size:.72rem;color:${zoneColors[clientZone]};margin-top:.2rem;">${zoneLabels[clientZone]}</div>
+        </div>
+        <div style="text-align:left;">
+          <span style="font-size:1.5rem;font-weight:900;color:#F59E0B;">$${price.toLocaleString()}</span>
+          <span style="color:#94A3B8;font-size:.75rem;display:block;">عربون: $${upfront} | نهائي: $${upfront}</span>
+        </div>
+      </div>
+      ${clientZone !== 'A' ? `<div style="margin-top:.6rem;padding-top:.6rem;border-top:1px solid rgba(245,158,11,.15);font-size:.75rem;color:#94A3B8;">💡 السعر مُعدَّل تلقائياً لمنطقة <strong style="color:${zoneColors[clientZone]};">${zoneLabels[clientZone]}</strong></div>` : ''}
+    </div>
+
+    <!-- طريقة الدفع الذكية -->
+    ${paymentCard}
+
+    <!-- أزرار الإجراء -->
+    <div style="display:grid;gap:.7rem;margin-top:.5rem;">
+      <div style="display:flex;gap:.7rem;">
+        <button class="btn-purple" style="flex:1;" onclick="magicAddProject('${encodeURIComponent(name)}','${phone}','${encodeURIComponent(biz)}','${encodeURIComponent(type)}',${price})">
+          ⚡ إضافة للبايبلاين
+        </button>
+        <button class="btn-wa" style="flex:1;" onclick="magicSendQuoteWA('${phone}','${encodeURIComponent(name)}','${encodeURIComponent(biz)}','${encodeURIComponent(sector)}','${encodeURIComponent(type)}','${encodeURIComponent(features)}',${price},'${clientType}')">
+          📱 إرسال عرض + دفع
+        </button>
+      </div>
+      <button class="btn-gold" style="width:100%;" onclick="magicFillQuoteForm('${encodeURIComponent(name)}','${phone}','${email}','${city}','${encodeURIComponent(biz)}','${encodeURIComponent(sector)}','${encodeURIComponent(type)}','${encodeURIComponent(features)}')">
+        📄 فتح نموذج العرض بالبيانات
+      </button>
+    </div>`;
+
+  document.getElementById('project-modal').classList.add('open');
+  window.history.replaceState({}, document.title, window.location.pathname);
+}
+
+function magicAddProject(name, phone, biz, type, price){
+  const d = new Date(); d.setDate(d.getDate()+7);
+  const delivery = d.toISOString().split('T')[0];
+  const project = {
+    id: Date.now(), name, phone, biz, type, price,
+    delivery, stage: 'new', deposit: Math.round(price/2),
+    final: Math.round(price/2),
+    createdAt: new Date().toLocaleDateString('ar-MA'),
+    depositPaid: false, finalPaid: false,
+  };
+  projects.push(project);
+  saveProjects(); renderPipeline(); updateStats(); populateProjectSelect();
+  closeModal();
+  showToast(`✅ تم إضافة ${name} للبايبلاين!`);
+}
+
+function magicSendQuoteWA(phone, nameEnc, bizEnc, sectorEnc, typeEnc, featuresEnc, price, clientType){
+  const name     = decodeURIComponent(nameEnc||'');
+  const biz      = decodeURIComponent(bizEnc||'');
+  const sector   = decodeURIComponent(sectorEnc||'');
+  const type     = decodeURIComponent(typeEnc||'');
+  const features = decodeURIComponent(featuresEnc||'');
+  const upfront  = Math.round(price/2);
+  const isLocal  = clientType === 'local';
+  const d = new Date(); d.setDate(d.getDate()+7);
+  const delivery = d.toLocaleDateString('ar-MA',{year:'numeric',month:'long',day:'numeric'});
+
+  // بناء قسم الدفع حسب نوع العميل
+  let paymentSection = '';
+  if (isLocal) {
+    paymentSection =
+`━━━━━━━━━━━━━━━━━━━━━━━
+💳 طرق الدفع (العربون: ${upfront * 10} درهم)
+━━━━━━━━━━━━━━━━━━━━━━━
+① وفا كاش / بريد كاش:
+   الاسم: *${OWNER.fullName}*
+   
+② تحويل بنكي (RIB):
+   *${OWNER.rib}*
+   المستفيد: ${OWNER.fullName}
+
+بعد الدفع أرسل لنا إيصال الدفع على واتساب ✅`;
+  } else {
+    const payLink = makePaypalLink(upfront, 'USD', `عربون موقع ${biz} — WEBIQ.AI`);
+    paymentSection =
+`━━━━━━━━━━━━━━━━━━━━━━━
+💳 طرق الدفع (Deposit: $${upfront})
+━━━━━━━━━━━━━━━━━━━━━━━
+① PayPal (الأسرع والأأمن):
+${payLink}
+
+② تحويل بنكي دولي (IBAN):
+   IBAN: *${OWNER.iban}*
+   SWIFT: *${OWNER.swift}*
+   Beneficiary: ${OWNER.fullName}
+
+After payment, send us the receipt on WhatsApp ✅`;
+  }
+
+  const msg =
+`╔═══════════════════════════════════════╗
+║    🌐 عرض سعر رسمي — WEBIQ.AI        ║
+╚═══════════════════════════════════════╝
+
+مرحباً ${name} 👋
+
+بعد مراجعة طلبك بعناية، يسعدنا تقديم هذا العرض المخصص لمشروع *${biz}*.
+
+━━━━━━━━━━━━━━━━━━━━━━━
+📋 تفاصيل المشروع
+━━━━━━━━━━━━━━━━━━━━━━━
+• النشاط: ${biz} (${sector})
+• نوع الموقع: ${type}
+• الميزات: ${features}
+
+━━━━━━━━━━━━━━━━━━━━━━━
+✅ ما يشمله العرض
+━━━━━━━━━━━━━━━━━━━━━━━
+• تصميم احترافي مخصص لقطاعك
+• Chatbot ذكي 24/7
+• 3 لغات: عربي، فرنسي، إنجليزي
+• استضافة مجانية — السنة الأولى
+• 3 جولات تعديل مجانية
+• دعم تقني 30 يوماً
+
+━━━━━━━━━━━━━━━━━━━━━━━
+💰 التسعير والأداء
+━━━━━━━━━━━━━━━━━━━━━━━
+• السعر الإجمالي: *$${price}*
+• 🤝 عربون لبدء الأشغال (50%): $${upfront}
+• 🏁 دفعة نهائية عند التسليم: $${upfront}
+
+${paymentSection}
+
+━━━━━━━━━━━━━━━━━━━━━━━
+📅 التسليم المتوقع: ${delivery}
+⏳ صلاحية العرض: 14 يوماً
+📱 أي استفسار: +212 609 018 612
+
+*WEBIQ.AI — مواقع ذكية تبيع وأنت نائم* 🌍`;
+
+  window.open(`https://wa.me/${phone.replace(/\s+/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
+  magicAddProject(encodeURIComponent(name), phone, encodeURIComponent(biz), encodeURIComponent(type), price);
+  showToast('📱 تم إرسال العرض + إضافة للبايبلاين!');
+}
+
+function magicFillQuoteForm(name,phone,email,city,biz,sector,type,features){
+  // ملء نموذج عرض السعر تلقائياً
+  document.getElementById('q-name').value    = name;
+  document.getElementById('q-phone').value   = phone;
+  document.getElementById('q-email').value   = email;
+  document.getElementById('q-city').value    = city;
+  document.getElementById('q-biz').value     = biz;
+  document.getElementById('q-sector').value  = sector;
+  document.getElementById('q-features').value= features;
+  // اختيار نوع الموقع
+  const siteTypeEl = document.getElementById('q-site-type');
+  for(let opt of siteTypeEl.options){
+    if(opt.text.includes(type.substring(0,10))) { siteTypeEl.value=opt.value; break; }
+  }
+  closeModal();
+  switchTabDirect('quote');
+  showToast('✅ تم ملء البيانات تلقائياً — راجع السعر وأرسل!');
+}
+
+function switchTabDirect(tab){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b=>{
+    if(b.textContent.includes('عرض سعر')) b.classList.add('active');
+  });
+}
+</script>
+</body>
+</html>

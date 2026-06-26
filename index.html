@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WEBIQ.AI — Smart AI Websites That Sell While You Sleep</title>
+<meta name="description" content="WEBIQ.AI builds professional AI-powered websites for businesses worldwide. Trilingual (AR/FR/EN), AI chatbot, smart booking, and automatic local currency display.">
+<meta name="keywords" content="AI website, site web IA, موقع ذكاء اصطناعي, Maroc, Morocco, web design, chatbot, booking">
+<meta property="og:title" content="WEBIQ.AI — Smart AI Websites">
+<meta property="og:description" content="Professional AI-powered websites for businesses worldwide. 7-day professional delivery.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://webiq.ai/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5' fill='%237C3AED'/><text y='.9em' x='50%' text-anchor='middle' font-size='45' font-weight='900' fill='%23F59E0B' font-family='Arial'>W</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="rtl">
+
+<canvas id="neural-canvas"></canvas>
+<div class="glow-orb orb1"></div>
+<div class="glow-orb orb2"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html" class="logo">
+    <svg class="logo-icon" viewBox="0 0 38 38" fill="none">
+      <polygon points="19,2 36,10.5 36,27.5 19,36 2,27.5 2,10.5" fill="#7C3AED" opacity="0.9"/>
+      <text x="19" y="25" text-anchor="middle" font-size="16" font-weight="900" fill="#F59E0B" font-family="Arial">W</text>
+    </svg>
+    <span class="logo-text">WEBIQ<span class="logo-dot">.AI</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" id="nav-home">الرئيسية</a></li>
+    <li><a href="services.html" id="nav-services">خدماتنا</a></li>
+    <li><a href="portfolio.html" id="nav-portfolio">أعمالنا</a></li>
+    <li><a href="pricing.html" id="nav-pricing">الأسعار</a></li>
+    <li><a href="contact.html" id="nav-contact">تواصل معنا</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:1rem;">
+    <div class="lang-switcher">
+      <button class="lang-btn" data-lang="ar">ع</button>
+      <button class="lang-btn" data-lang="fr">FR</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+    <a href="order.html" class="nav-cta" id="nav-order">اطلب موقعك</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div style="max-width:1200px;margin:0 auto;position:relative;z-index:1;">
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="pulse"></span>
+      <span id="hero-badge">🔥 الذكاء الاصطناعي في خدمة تجارتك</span>
+    </div>
+    <h1 id="hero-h1">موقعك الذكي <span class="gradient-text">يبيع وأنت نائم</span></h1>
+    <p id="hero-p">نبني لك مواقع ويب احترافية مدعومة بالذكاء الاصطناعي تجذب العملاء، ترفع مبيعاتك، وتميّزك عن منافسيك — بدون تعقيد.</p>
+    <div class="hero-actions">
+      <a href="order.html" class="btn-primary" id="hero-cta1">اطلب موقعك الآن →</a>
+      <a href="portfolio.html" class="btn-secondary" id="hero-cta2">شاهد أعمالنا</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><span class="stat-num" id="stat1-num">+50</span><span class="stat-label" id="stat1-label">موقع تم تسليمه</span></div>
+      <div class="stat-item"><span class="stat-num" id="stat2-num">7 أيام</span><span class="stat-label" id="stat2-label">متوسط وقت التسليم</span></div>
+      <div class="stat-item"><span class="stat-num" id="stat3-num">3x</span><span class="stat-label" id="stat3-label">متوسط نمو المبيعات</span></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- SERVICES PREVIEW -->
+<section style="position:relative;z-index:1;">
+<div class="section-wrap">
+  <span class="section-badge" id="services-badge">خدماتنا</span>
+  <h2 class="section-title" id="services-title">مواقع مصمّمة لكل قطاع تجاري</h2>
+  <p class="section-sub" id="services-sub">من المطاعم إلى العيادات — نبني موقعاً يناسب نشاطك تماماً ويعمل على مدار الساعة.</p>
+  <div class="divider"></div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🍽️</div>
+      <h3 id="sc1-title">مواقع المطاعم والمقاهي</h3>
+      <p id="sc1-desc">قائمة طعام تفاعلية، طلب واتساب مباشر، عرض العروض والصور بشكل احترافي.</p>
+      <div class="service-price"><span class="price-from" id="price-from-1">يبدأ من</span><span data-usd="250"></span></div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🏥</div>
+      <h3 id="sc2-title">مواقع العيادات والأطباء</h3>
+      <p id="sc2-desc">حجز مواعيد تلقائي، معلومات طبية، chatbot للإجابة عن الاستفسارات.</p>
+      <div class="service-price"><span class="price-from" id="price-from-2">يبدأ من</span><span data-usd="300"></span></div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🏗️</div>
+      <h3 id="sc3-title">مواقع شركات البناء</h3>
+      <p id="sc3-desc">حاسبة تكلفة البناء بالذكاء الاصطناعي، معرض مشاريع، طلب عروض الأسعار.</p>
+      <div class="service-price"><span class="price-from" id="price-from-3">يبدأ من</span><span data-usd="600"></span></div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🛒</div>
+      <h3 id="sc4-title">المتاجر الإلكترونية</h3>
+      <p id="sc4-desc">توصيات ذكية، دفع إلكتروني، إدارة المخزون، تتبع الطلبات.</p>
+      <div class="service-price"><span class="price-from" id="price-from-4">يبدأ من</span><span data-usd="1200"></span></div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">✂️</div>
+      <h3 id="sc5-title">الحلاقة والتجميل</h3>
+      <p id="sc5-desc">حجز مواعيد أون لاين، عرض الأسعار والخدمات، معرض الصور.</p>
+      <div class="service-price"><span class="price-from" id="price-from-5">يبدأ من</span><span data-usd="200"></span></div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🏨</div>
+      <h3 id="sc6-title">الفنادق والرياض</h3>
+      <p id="sc6-desc">حجز الغرف، عرض الخدمات، تفاعل مع الضيوف عبر AI مدمج.</p>
+      <div class="service-price"><span class="price-from" id="price-from-6">يبدأ من</span><span data-usd="800"></span></div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:3rem;">
+    <a href="services.html" class="btn-secondary" id="services-more">اكتشف كل خدماتنا →</a>
+  </div>
+</div>
+</section>
+
+<!-- WHY US -->
+<section style="background:rgba(124,58,237,0.03);border-top:1px solid rgba(124,58,237,0.1);border-bottom:1px solid rgba(124,58,237,0.1);position:relative;z-index:1;">
+<div class="section-wrap">
+  <div class="why-grid">
+    <div class="why-features">
+      <span class="section-badge" id="why-badge">لماذا WEBIQ.AI؟</span>
+      <h2 class="section-title" id="why-title">ليس مجرد موقع — <span class="gradient-text">بل آلة مبيعات</span></h2>
+      <p class="section-sub" id="why-sub">نضيف الذكاء الاصطناعي لكل موقع نبنيه ليعمل لصالحك على مدار الساعة.</p>
+      <div class="divider"></div>
+      <div class="feature-item">
+        <div class="feature-icon">🤖</div>
+        <div class="feature-text"><h4 id="why-f1-title">Chatbot ذكي متعدد اللغات</h4><p id="why-f1-p">يجيب عن أسئلة عملائك تلقائياً بالعربية والفرنسية والإنجليزية — 24/7.</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">💱</div>
+        <div class="feature-text"><h4 id="why-f2-title">عملة كل عميل تلقائياً</h4><p id="why-f2-p">كل زائر يرى الأسعار بعملة بلده تلقائياً — تجربة عالمية من الدقيقة الأولى.</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">⭐</div>
+        <div class="feature-text"><h4 id="why-f3-title">تسليم احترافي — في أسبوع</h4><p id="why-f3-p">نسلّمك موقعاً احترافياً متكاملاً خلال أسبوع — جودة لا تقبل التنازل.</p></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🌍</div>
+        <div class="feature-text"><h4 id="why-f4-title">3 لغات — بروح عالمية</h4><p id="why-f4-p">عربي، فرنسي، إنجليزي — موقعك يتحدث مع كل عميل بلغته.</p></div>
+      </div>
+    </div>
+    <div class="why-visual">
+      <div class="terminal-bar"><span class="t-dot red"></span><span class="t-dot yellow"></span><span class="t-dot green"></span></div>
+      <div class="terminal-line"><span class="t-cmd">$ </span><span class="t-out">webiq build --ai --global</span></div>
+      <div class="terminal-line"><span class="t-comment">// Detecting visitor location...</span></div>
+      <div class="terminal-line"><span class="t-ok">✓ </span>AI chatbot loaded</div>
+      <div class="terminal-line"><span class="t-ok">✓ </span>Currency: auto-detected</div>
+      <div class="terminal-line"><span class="t-ok">✓ </span>Language: AR / FR / EN</div>
+      <div class="terminal-line"><span class="t-ok">✓ </span>SEO optimized</div>
+      <div class="terminal-line"><span class="t-ok">✓ </span>Mobile ready</div>
+      <div class="terminal-line"><span class="t-ok">✓ </span>WhatsApp integrated</div>
+      <div class="terminal-line" style="margin-top:1rem;"><span class="t-cmd">$ </span><span class="t-out">🚀 Your site is live!</span><span class="terminal-cursor"></span></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- CTA -->
+<section style="position:relative;z-index:1;">
+<div class="section-wrap" style="text-align:center;">
+  <h2 class="section-title" id="cta-title">جاهز لتحويل تجارتك؟</h2>
+  <p class="section-sub" style="margin:1rem auto 2.5rem;" id="cta-sub">اطلب موقعك اليوم واحصل على استشارة مجانية + عرض سعر مخصص في أقل من ساعة.</p>
+  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+    <a href="order.html" class="btn-primary" style="font-size:1.1rem;padding:1rem 2.5rem;" id="cta-btn1">🚀 اطلب موقعك الآن</a>
+    <a href="https://wa.me/00212609018612" target="_blank" class="btn-secondary" style="font-size:1.1rem;padding:1rem 2.5rem;" id="cta-btn2">💬 تحدث معنا مباشرة</a>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer-full">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo">
+        <svg width="32" height="32" viewBox="0 0 38 38"><polygon points="19,2 36,10.5 36,27.5 19,36 2,27.5 2,10.5" fill="#7C3AED"/><text x="19" y="25" text-anchor="middle" font-size="16" font-weight="900" fill="#F59E0B" font-family="Arial">W</text></svg>
+        <span class="logo-text">WEBIQ<span class="logo-dot">.AI</span></span>
+      </a>
+      <p id="footer-tagline">مواقع ذكية تبيع وأنت نائم 🌍</p>
+      <div class="footer-social">
+        <a class="social-btn" href="https://wa.me/00212609018612" target="_blank" title="WhatsApp">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        </a>
+      </div>
+      <div id="currency-badge" style="margin-top:0.8rem;"></div>
+    </div>
+    <div class="footer-col">
+      <h4 id="footer-h-services">خدماتنا</h4>
+      <ul>
+        <li><a href="services.html" id="footer-l-restaurants">مواقع المطاعم</a></li>
+        <li><a href="services.html" id="footer-l-clinics">مواقع العيادات</a></li>
+        <li><a href="services.html" id="footer-l-ecommerce">المتاجر الإلكترونية</a></li>
+        <li><a href="services.html" id="footer-l-corporate">مواقع الشركات</a></li>
+        <li><a href="services.html" id="footer-l-hotels">الفنادق والسياحة</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 id="footer-h-company">الشركة</h4>
+      <ul>
+        <li><a href="mission.html" id="footer-l-mission">مهمتنا</a></li>
+        <li><a href="portfolio.html" id="footer-l-portfolio">أعمالنا</a></li>
+        <li><a href="pricing.html" id="footer-l-pricing">الأسعار</a></li>
+        <li><a href="contact.html" id="footer-l-contact">تواصل معنا</a></li>
+        <li><a href="order.html" id="footer-l-order">اطلب موقعك</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 id="footer-h-legal">قانوني</h4>
+      <ul>
+        <li><a href="privacy.html" id="footer-l-privacy">سياسة الخصوصية</a></li>
+        <li><a href="terms.html" id="footer-l-terms">شروط الخدمة</a></li>
+        <li><a href="mission.html">Our Mission</a></li>
+      </ul>
+      <div style="margin-top:1.5rem;">
+        <h4 id="footer-h-contact" style="font-weight:700;font-size:0.9rem;margin-bottom:0.8rem;color:var(--white);">تواصل سريع</h4>
+        <a href="https://wa.me/00212609018612" style="color:var(--gray);font-size:0.85rem;text-decoration:none;">📱 +212 609 018 612</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p id="footer-copy">© 2025 WEBIQ.AI — Smart websites that sell 24/7 🌍</p>
+    <div class="footer-legal">
+      <a href="privacy.html" id="footer-privacy-link">Privacy Policy</a>
+      <a href="terms.html" id="footer-terms-link">Terms of Service</a>
+      <a href="mission.html" id="footer-mission-link">Our Mission</a>
+    </div>
+  </div>
+</footer>
+
+<!-- CHATBOT -->
+<div class="chat-bubble">
+  <button class="chat-toggle" id="chat-toggle">🤖</button>
+  <div class="chat-box" id="chat-box">
+    <div class="chat-header">
+      <div class="chat-avatar">🤖</div>
+      <div><div class="chat-name">WEBIQ.AI Assistant</div><div class="chat-status">● Online</div></div>
+      <button class="chat-close" id="chat-close">✕</button>
+    </div>
+    <div class="chat-messages" id="chat-messages"></div>
+    <a class="chat-wa" href="https://wa.me/00212609018612" target="_blank"><span>📱</span> WhatsApp</a>
+    <div class="chat-input-row">
+      <input class="chat-input" id="chat-input" placeholder="اكتب سؤالك هنا...">
+      <button class="chat-send" id="chat-send">➤</button>
+    </div>
+  </div>
+</div>
+
+<!-- WA FLOAT -->
+<a class="wa-float" href="https://wa.me/00212609018612" target="_blank" title="WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</a>
+
+<script src="main.js"></script>
+</body>
+</html>

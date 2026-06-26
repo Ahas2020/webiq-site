@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أعمالنا — WEBIQ.AI</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5' fill='%237C3AED'/><text y='.9em' x='50%' text-anchor='middle' font-size='45' font-weight='900' fill='%23F59E0B' font-family='Arial'>W</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="rtl">
+<canvas id="neural-canvas"></canvas>
+<div class="glow-orb orb1"></div>
+<div class="glow-orb orb2"></div>
+
+<nav class="navbar">
+  <a href="index.html" class="logo">
+    <svg class="logo-icon" viewBox="0 0 38 38"><polygon points="19,2 36,10.5 36,27.5 19,36 2,27.5 2,10.5" fill="#7C3AED"/><text x="19" y="25" text-anchor="middle" font-size="16" font-weight="900" fill="#F59E0B" font-family="Arial">W</text></svg>
+    <span class="logo-text">WEBIQ<span class="logo-dot">.AI</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">الرئيسية</a></li>
+    <li><a href="services.html">خدماتنا</a></li>
+    <li><a href="portfolio.html">أعمالنا</a></li>
+    <li><a href="pricing.html">الأسعار</a></li>
+    <li><a href="contact.html">تواصل معنا</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:1rem;">
+    <div class="lang-switcher">
+      <button class="lang-btn active" data-lang="ar">ع</button>
+      <button class="lang-btn" data-lang="fr">FR</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+    <a href="order.html" class="nav-cta">اطلب موقعك</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div>
+    <span class="section-badge">معرض الأعمال</span>
+    <h1 class="section-title" style="margin-top:0.5rem;">مواقع حقيقية <span class="gradient-text">نتائج حقيقية</span></h1>
+    <p style="color:var(--gray);max-width:560px;line-height:1.8;">كل موقع في معرضنا هو قصة نجاح تاجر مغربي قرر الاستثمار في حضوره الرقمي.</p>
+  </div>
+</div>
+
+<section style="position:relative;z-index:1;">
+<div class="section-wrap" style="padding-top:2rem;">
+
+  <!-- Filter -->
+  <div style="display:flex;gap:0.7rem;flex-wrap:wrap;margin-bottom:2.5rem;">
+    <button class="rating-btn selected" style="font-size:0.85rem;">الكل</button>
+    <button class="rating-btn" style="font-size:0.85rem;">مطاعم</button>
+    <button class="rating-btn" style="font-size:0.85rem;">عيادات</button>
+    <button class="rating-btn" style="font-size:0.85rem;">تجارة</button>
+    <button class="rating-btn" style="font-size:0.85rem;">خدمات</button>
+  </div>
+
+  <div class="portfolio-grid">
+    <div class="port-card">
+      <div class="port-thumb" style="background:linear-gradient(135deg,#1a1a2e,#7C3AED);">🍽️</div>
+      <div class="port-info">
+        <h3>مطعم الأصالة — الدار البيضاء</h3>
+        <p>موقع مع قائمة طعام تفاعلية وطلب واتساب مباشر. زاد المطعم مبيعاته بنسبة 40% خلال شهرين.</p>
+        <span class="port-tag">مطعم</span>
+        <span class="port-tag">واتساب</span>
+        <span class="port-tag">Chatbot</span>
+      </div>
+    </div>
+
+    <div class="port-card">
+      <div class="port-thumb" style="background:linear-gradient(135deg,#0d2137,#00b4d8);">🏥</div>
+      <div class="port-info">
+        <h3>عيادة الدكتور كريم — الرباط</h3>
+        <p>نظام حجز مواعيد ذكي قلّل المكالمات الهاتفية بنسبة 70% ووفّر وقت الموظفين.</p>
+        <span class="port-tag">عيادة</span>
+        <span class="port-tag">حجز مواعيد</span>
+        <span class="port-tag">3 لغات</span>
+      </div>
+    </div>
+
+    <div class="port-card">
+      <div class="port-thumb" style="background:linear-gradient(135deg,#1c1c1c,#F59E0B);">✂️</div>
+      <div class="port-info">
+        <h3>صالون Elegance — مراكش</h3>
+        <p>حجز أون لاين مع تذكير تلقائي. انخفضت نسبة الغيابات من 30% إلى 5% فقط.</p>
+        <span class="port-tag">تجميل</span>
+        <span class="port-tag">حجز ذكي</span>
+      </div>
+    </div>
+
+    <div class="port-card">
+      <div class="port-thumb" style="background:linear-gradient(135deg,#1a2a1a,#28C840);">🏗️</div>
+      <div class="port-info">
+        <h3>شركة البناء الذهبي — فاس</h3>
+        <p>حاسبة تكلفة البناء بالذكاء الاصطناعي جلبت 150 عميل محتمل في الشهر الأول.</p>
+        <span class="port-tag">بناء</span>
+        <span class="port-tag">AI Calculator</span>
+      </div>
+    </div>
+
+    <div class="port-card">
+      <div class="port-thumb" style="background:linear-gradient(135deg,#2a1a1a,#ef4444);">🛒</div>
+      <div class="port-info">
+        <h3>متجر أزياء Maroc Chic</h3>
+        <p>متجر إلكتروني كامل مع توصيات ذكية. حقق 80,000 درهم في أول 3 أشهر.</p>
+        <span class="port-tag">متجر</span>
+        <span class="port-tag">AI توصيات</span>
+        <span class="port-tag">دفع إلكتروني</span>
+      </div>
+    </div>
+
+    <div class="port-card">
+      <div class="port-thumb" style="background:linear-gradient(135deg,#1a1a2a,#8B5CF6);">🏨</div>
+      <div class="port-info">
+        <h3>رياض الأندلس — مراكش</h3>
+        <p>موقع سياحي 3 لغات مع نظام حجز. ارتفعت الحجوزات المباشرة وتقلصت عمولة المنصات.</p>
+        <span class="port-tag">فندق</span>
+        <span class="port-tag">3 لغات</span>
+        <span class="port-tag">حجز مباشر</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Testimonials -->
+  <div style="margin-top:5rem;">
+    <h2 class="section-title" style="text-align:center;margin-bottom:3rem;">ماذا يقول عملاؤنا</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
+      <div style="background:var(--black3);border:1px solid var(--border);border-radius:16px;padding:1.8rem;">
+        <div style="font-size:1.5rem;color:var(--gold);margin-bottom:1rem;">★★★★★</div>
+        <p style="color:var(--gray);font-size:0.9rem;line-height:1.8;margin-bottom:1rem;">"ما توقعتش أن موقع ويب يمكنه أن يجلب لي زبائن جدد كل يوم. الآن عندي حجوزات يومية من غوغل مباشرة!"</p>
+        <div style="display:flex;align-items:center;gap:0.7rem;">
+          <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--gold));display:flex;align-items:center;justify-content:center;font-weight:700;">ك</div>
+          <div><div style="font-weight:600;font-size:0.9rem;">الدكتور كريم م.</div><div style="color:var(--gray);font-size:0.8rem;">طبيب أسنان — الرباط</div></div>
+        </div>
+      </div>
+
+      <div style="background:var(--black3);border:1px solid var(--border);border-radius:16px;padding:1.8rem;">
+        <div style="font-size:1.5rem;color:var(--gold);margin-bottom:1rem;">★★★★★</div>
+        <p style="color:var(--gray);font-size:0.9rem;line-height:1.8;margin-bottom:1rem;">"الموقع تسلّمته في 48 ساعة وكان أحسن من اللي تخيّلته. الchatbot كيجاوب على الزبائن ديالي حتى فالليل!"</p>
+        <div style="display:flex;align-items:center;gap:0.7rem;">
+          <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#F59E0B,#ef4444);display:flex;align-items:center;justify-content:center;font-weight:700;">س</div>
+          <div><div style="font-weight:600;font-size:0.9rem;">سارة الإدريسي</div><div style="color:var(--gray);font-size:0.8rem;">صاحبة صالون — مراكش</div></div>
+        </div>
+      </div>
+
+      <div style="background:var(--black3);border:1px solid var(--border);border-radius:16px;padding:1.8rem;">
+        <div style="font-size:1.5rem;color:var(--gold);margin-bottom:1rem;">★★★★★</div>
+        <p style="color:var(--gray);font-size:0.9rem;line-height:1.8;margin-bottom:1rem;">"الحاسبة ديال تكلفة البناء جابت لي زبائن جدد ما توقعتهمش. استثمار بحال الحلّ."</p>
+        <div style="display:flex;align-items:center;gap:0.7rem;">
+          <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#28C840,#00b4d8);display:flex;align-items:center;justify-content:center;font-weight:700;">ي</div>
+          <div><div style="font-weight:600;font-size:0.9rem;">يوسف الناصري</div><div style="color:var(--gray);font-size:0.8rem;">مقاول — فاس</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:4rem;">
+    <p style="color:var(--gray);margin-bottom:1.5rem;">موقعك سيكون القادم في هذا المعرض</p>
+    <a href="order.html" class="btn-primary">🚀 ابدأ مشروعك اليوم</a>
+  </div>
+
+</div>
+</section>
+
+<footer class="footer-full">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo"><svg width="32" height="32" viewBox="0 0 38 38"><polygon points="19,2 36,10.5 36,27.5 19,36 2,27.5 2,10.5" fill="#7C3AED"/><text x="19" y="25" text-anchor="middle" font-size="16" font-weight="900" fill="#F59E0B" font-family="Arial">W</text></svg><span class="logo-text">WEBIQ<span class="logo-dot">.AI</span></span></a>
+      <p id="footer-tagline">مواقع ذكية تبيع وأنت نائم 🌍</p>
+      <div id="currency-badge" style="margin-top:0.8rem;"></div>
+    </div>
+    <div class="footer-col"><h4>الخدمات</h4><ul><li><a href="services.html">مواقع المطاعم</a></li><li><a href="services.html">العيادات</a></li><li><a href="services.html">المتاجر</a></li><li><a href="services.html">الشركات</a></li></ul></div>
+    <div class="footer-col"><h4>الشركة</h4><ul><li><a href="mission.html">مهمتنا</a></li><li><a href="portfolio.html">أعمالنا</a></li><li><a href="pricing.html">الأسعار</a></li><li><a href="contact.html">تواصل</a></li></ul></div>
+    <div class="footer-col"><h4>قانوني</h4><ul><li><a href="privacy.html">سياسة الخصوصية</a></li><li><a href="terms.html">شروط الخدمة</a></li><li><a href="mission.html">Our Mission</a></li></ul><div style="margin-top:1rem;"><a href="https://wa.me/00212609018612" style="color:var(--gray);font-size:0.85rem;text-decoration:none;">📱 +212 609 018 612</a></div></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 WEBIQ.AI — Smart websites that sell 24/7 🌍</p>
+    <div class="footer-legal"><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="mission.html">Our Mission</a></div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/00212609018612" target="_blank">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</a>
+<script src="main.js"></script>
+<script>
+document.querySelectorAll('.rating-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.rating-btn').forEach(b => b.classList.remove('selected'));
+    this.classList.add('selected');
+  });
+});
+</script>
+</body>
+</html>

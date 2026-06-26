@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Mission — WEBIQ.AI</title>
+<meta name="description" content="WEBIQ.AI mission: democratizing AI-powered web presence for every business worldwide.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5' fill='%237C3AED'/><text y='.9em' x='50%' text-anchor='middle' font-size='45' font-weight='900' fill='%23F59E0B' font-family='Arial'>W</text></svg>">
+<link rel="stylesheet" href="style.css">
+<style>
+.mission-wrap { max-width:860px; margin:0 auto; padding:8rem 2rem 5rem; position:relative; z-index:1; }
+.mission-wrap h1 { font-size:clamp(2rem,5vw,3.2rem); font-weight:800; line-height:1.1; margin-bottom:1.5rem; }
+.mission-wrap p { color:var(--gray); font-size:1.05rem; line-height:2; margin-bottom:1.5rem; }
+.mission-wrap p strong { color:var(--white); }
+.mission-quote {
+  border-right:4px solid var(--purple); padding:1.5rem 2rem;
+  background:rgba(124,58,237,0.07); border-radius:0 12px 12px 0;
+  margin:2.5rem 0; font-size:1.1rem; color:var(--white);
+  line-height:1.8; font-style:italic;
+}
+body.fr .mission-quote, body.en .mission-quote { border-right:none; border-left:4px solid var(--purple); border-radius:12px 0 0 12px; }
+.value-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1.5rem; margin:3rem 0; }
+.value-card {
+  padding:1.8rem; border-radius:14px;
+  border:1px solid var(--border); background:rgba(255,255,255,0.02);
+  text-align:center;
+}
+.value-icon { font-size:2.2rem; margin-bottom:0.8rem; display:block; }
+.value-card h3 { font-weight:700; margin-bottom:0.5rem; font-size:1rem; }
+.value-card p { color:var(--gray); font-size:0.87rem; line-height:1.7; }
+.team-section { margin-top:4rem; padding-top:3rem; border-top:1px solid var(--border); }
+.team-card {
+  display:flex; gap:1.5rem; align-items:center;
+  background:var(--black3); border:1px solid var(--border);
+  border-radius:16px; padding:1.8rem;
+}
+.team-avatar {
+  width:80px; height:80px; border-radius:50%;
+  background:linear-gradient(135deg,var(--purple),var(--gold));
+  display:flex; align-items:center; justify-content:center;
+  font-size:2rem; flex-shrink:0;
+}
+.team-info h3 { font-weight:800; font-size:1.1rem; margin-bottom:0.2rem; }
+.team-info .team-role { color:var(--purple-light); font-size:0.85rem; margin-bottom:0.5rem; }
+.team-info p { color:var(--gray); font-size:0.9rem; line-height:1.7; }
+</style>
+</head>
+<body class="rtl">
+<canvas id="neural-canvas"></canvas>
+<div class="glow-orb orb1"></div>
+<div class="glow-orb orb2"></div>
+
+<nav class="navbar">
+  <a href="index.html" class="logo">
+    <svg class="logo-icon" viewBox="0 0 38 38"><polygon points="19,2 36,10.5 36,27.5 19,36 2,27.5 2,10.5" fill="#7C3AED"/><text x="19" y="25" text-anchor="middle" font-size="16" font-weight="900" fill="#F59E0B" font-family="Arial">W</text></svg>
+    <span class="logo-text">WEBIQ<span class="logo-dot">.AI</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">الرئيسية</a></li>
+    <li><a href="services.html">الخدمات</a></li>
+    <li><a href="pricing.html">الأسعار</a></li>
+    <li><a href="contact.html">تواصل</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:1rem;">
+    <div class="lang-switcher">
+      <button class="lang-btn active" data-lang="ar">ع</button>
+      <button class="lang-btn" data-lang="fr">FR</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+    <a href="order.html" class="nav-cta">اطلب موقعك</a>
+  </div>
+</nav>
+
+<div class="mission-wrap">
+  <span class="section-badge">Our Mission</span>
+  <h1 style="margin-top:0.8rem;">
+    نؤمن أن كل تاجر في العالم<br>
+    <span class="gradient-text">يستحق موقعاً يعمل بذكاء</span>
+  </h1>
+
+  <p>
+    في عالم يتسارع نحو الرقمنة، يبقى كثير من أصحاب الأعمال خارج المشهد الإلكتروني — لا لغياب الطموح، بل لغياب الأداة المناسبة بالسعر المناسب. <strong>WEBIQ.AI وُلدت لتغيير هذه المعادلة.</strong>
+  </p>
+
+  <div class="mission-quote">
+    "نحن لا نبني مواقع ويب فقط — نبني آلات مبيعات ذكية تعمل لصالح أصحابها على مدار الساعة، في كل لغة، ولكل عميل في كل بقاع الأرض."
+  </div>
+
+  <p>
+    بدأنا من المغرب، من قناعة راسخة بأن <strong>الذكاء الاصطناعي ليس حكراً على الشركات الكبرى.</strong> صاحب المطعم في الدار البيضاء، الطبيب في مراكش، التاجر في فاس — كلهم يستحقون حضوراً رقمياً يُنافس به أكبر العلامات التجارية العالمية.
+  </p>
+
+  <p>
+    في كل موقع نبنيه، نضع قصة صاحبه في مركز التجربة. نفهم نشاطه، نستمع لعملائه، ونبني أداة رقمية لا تعكس هويته فحسب — بل تعمل لزيادة مبيعاته كل يوم.
+  </p>
+
+  <h2 style="font-size:1.4rem;font-weight:800;margin:3rem 0 1.5rem;">قيمنا الجوهرية</h2>
+  <div class="value-grid">
+    <div class="value-card">
+      <span class="value-icon">🎯</span>
+      <h3>النتائج أولاً</h3>
+      <p>كل قرار تقني نتخذه مبني على سؤال واحد: هل سيزيد هذا من مبيعات عميلنا؟</p>
+    </div>
+    <div class="value-card">
+      <span class="value-icon">⚡</span>
+      <h3>السرعة والجودة معاً</h3>
+      <p>نرفض الاختيار بين السرعة والإتقان. 24 ساعة تسليم لا تعني التنازل عن الاحتراف.</p>
+    </div>
+    <div class="value-card">
+      <span class="value-icon">🌍</span>
+      <h3>بروح عالمية</h3>
+      <p>مواقعنا تتحدث لغة كل عميل في العالم — عربياً، فرنسياً، إنجليزياً، بعملة بلده.</p>
+    </div>
+    <div class="value-card">
+      <span class="value-icon">🤝</span>
+      <h3>شراكة حقيقية</h3>
+      <p>لسنا مزوّد خدمة — نحن شريك استراتيجي يهمّه نمو أعمالك على المدى البعيد.</p>
+    </div>
+    <div class="value-card">
+      <span class="value-icon">🔓</span>
+      <h3>شفافية تامة</h3>
+      <p>أسعار واضحة، عقود مفهومة، لا رسوم خفية، لا مفاجآت بعد التسليم.</p>
+    </div>
+    <div class="value-card">
+      <span class="value-icon">🧠</span>
+      <h3>ذكاء حقيقي</h3>
+      <p>نستخدم أحدث تقنيات AI لا كزينة — بل كأداة عمل فعلية تزيد من قيمة كل موقع.</p>
+    </div>
+  </div>
+
+  <div class="team-section">
+    <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:1.5rem;">من نحن</h2>
+    <div class="team-card">
+      <div class="team-avatar">🧭</div>
+      <div class="team-info">
+        <h3>أحمد سالم</h3>
+        <div class="team-role">Founder & CEO — WEBIQ.AI</div>
+        <p>صحفي ومحلل سياسي ورائد أعمال رقمي من المغرب. مؤمن بأن اللغة العربية والهوية المغربية تستحق أفضل تمثيل في الفضاء الرقمي العالمي. يقود WEBIQ.AI برؤية واضحة: جعل الذكاء الاصطناعي في متناول كل رجل أعمال، من الدار البيضاء إلى دبي إلى باريس.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:4rem;text-align:center;">
+    <h3 style="font-size:1.3rem;font-weight:700;margin-bottom:1rem;">جاهز لتكون جزءاً من القصة؟</h3>
+    <a href="order.html" class="btn-primary" style="display:inline-flex;">🚀 ابدأ مشروعك معنا</a>
+  </div>
+</div>
+
+<footer class="footer-full">
+  <div class="footer-bottom">
+    <p>© 2025 WEBIQ.AI — All rights reserved.</p>
+    <div class="footer-legal">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="mission.html">Our Mission</a>
+    </div>
+  </div>
+</footer>
+<script src="main.js"></script>
+</body>
+</html>

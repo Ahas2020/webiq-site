@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing — WEBIQ.AI</title>
+<meta name="description" content="WEBIQ.AI — Intelligent geo-pricing: prices adapt automatically to your region. AI websites for every market worldwide.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5' fill='%237C3AED'/><text y='.9em' x='50%' text-anchor='middle' font-size='45' font-weight='900' fill='%23F59E0B' font-family='Arial'>W</text></svg>">
+<link rel="stylesheet" href="style.css">
+<style>
+.price-card .price-usd { font-size:2.2rem; }
+.price-card .price-local { font-size:0.88rem; }
+</style>
+</head>
+<body class="rtl">
+<canvas id="neural-canvas"></canvas>
+<div class="glow-orb orb1"></div>
+<div class="glow-orb orb2"></div>
+
+<nav class="navbar">
+  <a href="index.html" class="logo">
+    <svg class="logo-icon" viewBox="0 0 38 38"><polygon points="19,2 36,10.5 36,27.5 19,36 2,27.5 2,10.5" fill="#7C3AED"/><text x="19" y="25" text-anchor="middle" font-size="16" font-weight="900" fill="#F59E0B" font-family="Arial">W</text></svg>
+    <span class="logo-text">WEBIQ<span class="logo-dot">.AI</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" id="nav-home">الرئيسية</a></li>
+    <li><a href="services.html" id="nav-services">خدماتنا</a></li>
+    <li><a href="portfolio.html" id="nav-portfolio">أعمالنا</a></li>
+    <li><a href="pricing.html" id="nav-pricing">الأسعار</a></li>
+    <li><a href="contact.html" id="nav-contact">تواصل معنا</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:1rem;">
+    <div class="lang-switcher">
+      <button class="lang-btn" data-lang="ar">ع</button>
+      <button class="lang-btn" data-lang="fr">FR</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+    <a href="order.html" class="nav-cta" id="nav-order">اطلب موقعك</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div>
+    <span class="section-badge">Pricing</span>
+    <h1 class="section-title" style="margin-top:0.5rem;">استثمار يعود عليك <span class="gradient-text">بأضعاف مضاعفة</span></h1>
+    <p style="color:var(--gray);max-width:560px;line-height:1.8;">أسعار بالدولار الأمريكي مع عرض تلقائي بعملة بلدك. شفافية تامة — بدون رسوم خفية.</p>
+    <div id="currency-badge" style="margin-top:1rem;"></div>
+  </div>
+</div>
+
+<section style="position:relative;z-index:1;">
+<div class="section-wrap" style="padding-top:2rem;">
+
+  <div style="text-align:center;margin-bottom:3rem;">
+    <!-- Zone Indicator — يظهر تلقائياً حسب بلد الزائر -->
+    <div id="zone-indicator"></div>
+    <div style="display:inline-flex;background:var(--black3);border:1px solid var(--border);border-radius:50px;padding:4px;">
+      <button id="toggle-once" onclick="toggleBilling('once')" style="padding:0.5rem 1.5rem;border-radius:50px;border:none;cursor:pointer;font-size:0.9rem;font-weight:600;background:var(--purple);color:var(--white);transition:all 0.3s;">One-time</button>
+      <button id="toggle-monthly" onclick="toggleBilling('monthly')" style="padding:0.5rem 1.5rem;border-radius:50px;border:none;cursor:pointer;font-size:0.9rem;font-weight:600;background:transparent;color:var(--gray);transition:all 0.3s;">+ Monthly</button>
+    </div>
+  </div>
+
+  <div class="pricing-grid">
+    <!-- Starter -->
+    <div class="price-card">
+      <div class="price-tier">🌱 Starter</div>
+      <div id="p1-price"></div>
+      <div class="price-desc">Perfect for freelancers & small shops</div>
+      <ul class="price-features">
+        <li><span class="check">✓</span> 1–3 page website</li>
+        <li><span class="check">✓</span> Custom professional design</li>
+        <li><span class="check">✓</span> WhatsApp button</li>
+        <li><span class="check">✓</span> Google Maps integration</li>
+        <li><span class="check">✓</span> Mobile responsive</li>
+        <li><span class="check">✓</span> 7-day professional delivery</li>
+        <li style="opacity:0.4"><span>✗</span> AI chatbot</li>
+        <li style="opacity:0.4"><span>✗</span> Multilingual</li>
+      </ul>
+      <a href="order.html" class="btn-price btn-price-outline">Order Now</a>
+    </div>
+
+    <!-- Pro -->
+    <div class="price-card featured">
+      <div class="price-tier">🚀 Pro</div>
+      <div id="p2-price"></div>
+      <div class="price-desc">Best for restaurants, clinics & SMBs</div>
+      <ul class="price-features">
+        <li><span class="check">✓</span> 5–8 pages</li>
+        <li><span class="check">✓</span> Premium custom design</li>
+        <li><span class="check" style="color:var(--gold)">★</span> AI chatbot (3 languages)</li>
+        <li><span class="check" style="color:var(--gold)">★</span> AR / FR / EN multilingual</li>
+        <li><span class="check">✓</span> Online booking system</li>
+        <li><span class="check">✓</span> Advanced SEO</li>
+        <li><span class="check">✓</span> Visitor analytics</li>
+        <li><span class="check">✓</span> 7-day professional delivery</li>
+      </ul>
+      <a href="order.html" class="btn-price btn-price-filled">Get Started ✨</a>
+    </div>
+
+    <!-- Enterprise -->
+    <div class="price-card">
+      <div class="price-tier">👑 Enterprise</div>
+      <div id="p3-price"></div>
+      <div class="price-desc">For e-commerce & large businesses</div>
+      <ul class="price-features">
+        <li><span class="check">✓</span> Unlimited pages</li>
+        <li><span class="check">✓</span> Full e-commerce store</li>
+        <li><span class="check" style="color:var(--gold)">★</span> Advanced AI + smart recommendations</li>
+        <li><span class="check" style="color:var(--gold)">★</span> Custom admin dashboard</li>
+        <li><span class="check">✓</span> Payment gateway</li>
+        <li><span class="check">✓</span> Inventory management</li>
+        <li><span class="check">✓</span> Priority support</li>
+        <li><span class="check">✓</span> 5–7 day delivery</li>
+      </ul>
+      <a href="order.html" class="btn-price btn-price-outline">Contact Us</a>
+    </div>
+  </div>
+
+  <!-- Monthly add-on -->
+  <div id="monthly-addon" style="display:none;margin-top:2rem;background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.2);border-radius:16px;padding:2rem;text-align:center;">
+    <h3 style="margin-bottom:0.5rem;">🔄 Monthly Maintenance — Keep your site alive & growing</h3>
+    <p style="color:var(--gray);margin-bottom:1.5rem;">Includes: Hosting + Updates + Technical support + Monthly content refresh</p>
+    <div style="display:flex;justify-content:center;gap:3rem;flex-wrap:wrap;">
+      <div style="text-align:center;"><div id="p1-mo"></div><p style="color:var(--gray);font-size:0.85rem;margin-top:0.3rem;">Starter / month</p></div>
+      <div style="text-align:center;"><div id="p2-mo"></div><p style="color:var(--gray);font-size:0.85rem;margin-top:0.3rem;">Pro / month</p></div>
+      <div style="text-align:center;"><div id="p3-mo"></div><p style="color:var(--gray);font-size:0.85rem;margin-top:0.3rem;">Enterprise / month</p></div>
+    </div>
+  </div>
+
+  <!-- Currency note -->
+  <div style="text-align:center;margin-top:2rem;padding:1rem;background:rgba(124,58,237,0.06);border:1px solid var(--border);border-radius:10px;max-width:600px;margin-left:auto;margin-right:auto;">
+    <p style="color:var(--gray);font-size:0.87rem;">💡 <strong>Intelligent pricing:</strong> Prices automatically adjust to your region — Maghreb, Gulf, Europe, or Americas. Each visitor sees the right price for their market, displayed in their local currency.</p>
+  </div>
+
+  <!-- FAQ -->
+  <div style="margin-top:5rem;">
+    <h2 class="section-title" style="text-align:center;margin-bottom:2rem;">Frequently Asked Questions</h2>
+    <div style="display:flex;flex-direction:column;gap:1rem;max-width:700px;margin:0 auto;">
+      <details style="background:var(--black3);border:1px solid var(--border);border-radius:12px;padding:1.2rem;cursor:pointer;">
+        <summary style="font-weight:600;list-style:none;">What payment methods do you accept?</summary>
+        <p style="color:var(--gray);margin-top:1rem;font-size:0.9rem;line-height:1.7;">We accept bank transfer, PayPal, Western Union, and local payment methods (Wafacash, Barid Cash in Morocco). 50% upfront, 50% on delivery.</p>
+      </details>
+      <details style="background:var(--black3);border:1px solid var(--border);border-radius:12px;padding:1.2rem;cursor:pointer;">
+        <summary style="font-weight:600;list-style:none;">Do I need technical skills to manage my site?</summary>
+        <p style="color:var(--gray);margin-top:1rem;font-size:0.9rem;line-height:1.7;">No. We build easy-to-manage sites and provide a free training session. The monthly plan includes full management by our team.</p>
+      </details>
+      <details style="background:var(--black3);border:1px solid var(--border);border-radius:12px;padding:1.2rem;cursor:pointer;">
+        <summary style="font-weight:600;list-style:none;">What if I'm not satisfied with the result?</summary>
+        <p style="color:var(--gray);margin-top:1rem;font-size:0.9rem;line-height:1.7;">We offer 3 free revision rounds. If you're still not satisfied, we'll refund 50% of your first payment. See our <a href="terms.html" style="color:var(--purple-light);">Terms of Service</a> for details.</p>
+      </details>
+      <details style="background:var(--black3);border:1px solid var(--border);border-radius:12px;padding:1.2rem;cursor:pointer;">
+        <summary style="font-weight:600;list-style:none;">Is hosting included?</summary>
+        <p style="color:var(--gray);margin-top:1rem;font-size:0.9rem;line-height:1.7;">Yes — free first-year hosting with Pro and Enterprise plans. After that, it's covered by the monthly maintenance plan ($40/mo for Pro).</p>
+      </details>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:4rem;">
+    <a href="order.html" class="btn-primary" style="font-size:1.1rem;padding:1rem 2.5rem;">🚀 Order now — Free consultation included</a>
+  </div>
+</div>
+</section>
+
+<footer class="footer-full">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo"><svg width="32" height="32" viewBox="0 0 38 38"><polygon points="19,2 36,10.5 36,27.5 19,36 2,27.5 2,10.5" fill="#7C3AED"/><text x="19" y="25" text-anchor="middle" font-size="16" font-weight="900" fill="#F59E0B" font-family="Arial">W</text></svg><span class="logo-text">WEBIQ<span class="logo-dot">.AI</span></span></a>
+      <p id="footer-tagline">Smart websites that sell 24/7 🌍</p>
+      <div id="currency-badge" style="margin-top:0.8rem;"></div>
+    </div>
+    <div class="footer-col"><h4>Services</h4><ul><li><a href="services.html">Restaurant websites</a></li><li><a href="services.html">Clinic websites</a></li><li><a href="services.html">E-commerce</a></li><li><a href="services.html">Corporate sites</a></li></ul></div>
+    <div class="footer-col"><h4>Company</h4><ul><li><a href="mission.html">Our Mission</a></li><li><a href="portfolio.html">Portfolio</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-col"><h4>Legal</h4><ul><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms of Service</a></li></ul><div style="margin-top:1.5rem;"><a href="https://wa.me/00212609018612" style="color:var(--gray);font-size:0.85rem;text-decoration:none;">📱 +212 609 018 612</a></div></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 WEBIQ.AI — Smart websites that sell 24/7 🌍</p>
+    <div class="footer-legal"><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="mission.html">Our Mission</a></div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/00212609018612" target="_blank">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</a>
+<script src="main.js"></script>
+<script>
+function toggleBilling(type) {
+  const m = type==='monthly';
+  document.getElementById('toggle-once').style.cssText=`padding:0.5rem 1.5rem;border-radius:50px;border:none;cursor:pointer;font-size:0.9rem;font-weight:600;background:${m?'transparent':'var(--purple)'};color:${m?'var(--gray)':'var(--white)'};transition:all 0.3s;`;
+  document.getElementById('toggle-monthly').style.cssText=`padding:0.5rem 1.5rem;border-radius:50px;border:none;cursor:pointer;font-size:0.9rem;font-weight:600;background:${m?'var(--purple)':'transparent'};color:${m?'var(--white)':'var(--gray)'};transition:all 0.3s;`;
+  document.getElementById('monthly-addon').style.display=m?'block':'none';
+}
+</script>
+</body>
+</html>

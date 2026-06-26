@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>خدماتنا — WEBIQ.AI</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5' fill='%237C3AED'/><text y='.9em' x='50%' text-anchor='middle' font-size='45' font-weight='900' fill='%23F59E0B' font-family='Arial'>W</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="rtl">
+<canvas id="neural-canvas"></canvas>
+<div class="glow-orb orb1"></div>
+<div class="glow-orb orb2"></div>
+
+<nav class="navbar">
+  <a href="index.html" class="logo">
+    <svg class="logo-icon" viewBox="0 0 38 38"><polygon points="19,2 36,10.5 36,27.5 19,36 2,27.5 2,10.5" fill="#7C3AED"/><text x="19" y="25" text-anchor="middle" font-size="16" font-weight="900" fill="#F59E0B" font-family="Arial">W</text></svg>
+    <span class="logo-text">WEBIQ<span class="logo-dot">.AI</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" id="nav-home">الرئيسية</a></li>
+    <li><a href="services.html" id="nav-services">خدماتنا</a></li>
+    <li><a href="portfolio.html" id="nav-portfolio">أعمالنا</a></li>
+    <li><a href="pricing.html" id="nav-pricing">الأسعار</a></li>
+    <li><a href="contact.html" id="nav-contact">تواصل معنا</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:1rem;">
+    <div class="lang-switcher">
+      <button class="lang-btn active" data-lang="ar">ع</button>
+      <button class="lang-btn" data-lang="fr">FR</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+    <a href="order.html" class="nav-cta" id="nav-order">اطلب موقعك</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div>
+    <span class="section-badge">خدماتنا</span>
+    <h1 class="section-title" style="margin-top:0.5rem;">موقع ذكي لكل نشاط تجاري</h1>
+    <p style="color:var(--gray);max-width:560px;line-height:1.8;">نبني مواقع مخصصة لكل قطاع مع ميزات الذكاء الاصطناعي التي تحوّل الزوار إلى عملاء فعليين.</p>
+  </div>
+</div>
+
+<section style="position:relative;z-index:1;">
+<div class="section-wrap" style="padding-top:2rem;">
+
+  <!-- AI Features Block -->
+  <div style="background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(245,158,11,0.05));border:1px solid var(--border);border-radius:20px;padding:2.5rem;margin-bottom:4rem;">
+    <div style="text-align:center;margin-bottom:2rem;">
+      <h2 class="section-title">🤖 ما الذي يجعل موقعك <span class="gradient-text">ذكياً؟</span></h2>
+      <p style="color:var(--gray);">كل موقع نبنيه يأتي مع ميزات AI مدمجة من الأساس</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;">
+      <div style="text-align:center;padding:1.5rem;background:rgba(0,0,0,0.3);border-radius:12px;border:1px solid var(--border);">
+        <div style="font-size:2rem;margin-bottom:0.7rem;">🤖</div>
+        <h4 style="margin-bottom:0.3rem;">Chatbot ذكي</h4>
+        <p style="color:var(--gray);font-size:0.85rem;">يجيب عن العملاء تلقائياً بـ 3 لغات</p>
+      </div>
+      <div style="text-align:center;padding:1.5rem;background:rgba(0,0,0,0.3);border-radius:12px;border:1px solid var(--border);">
+        <div style="font-size:2rem;margin-bottom:0.7rem;">📅</div>
+        <h4 style="margin-bottom:0.3rem;">حجز تلقائي</h4>
+        <p style="color:var(--gray);font-size:0.85rem;">جدولة مواعيد بدون تدخل يدوي</p>
+      </div>
+      <div style="text-align:center;padding:1.5rem;background:rgba(0,0,0,0.3);border-radius:12px;border:1px solid var(--border);">
+        <div style="font-size:2rem;margin-bottom:0.7rem;">🔍</div>
+        <h4 style="margin-bottom:0.3rem;">SEO ذكي</h4>
+        <p style="color:var(--gray);font-size:0.85rem;">يظهر موقعك في صدارة نتائج غوغل</p>
+      </div>
+      <div style="text-align:center;padding:1.5rem;background:rgba(0,0,0,0.3);border-radius:12px;border:1px solid var(--border);">
+        <div style="font-size:2rem;margin-bottom:0.7rem;">📊</div>
+        <h4 style="margin-bottom:0.3rem;">تحليلات متقدمة</h4>
+        <p style="color:var(--gray);font-size:0.85rem;">تعرف على سلوك عملائك ومصادرهم</p>
+      </div>
+      <div style="text-align:center;padding:1.5rem;background:rgba(0,0,0,0.3);border-radius:12px;border:1px solid var(--border);">
+        <div style="font-size:2rem;margin-bottom:0.7rem;">🌍</div>
+        <h4 style="margin-bottom:0.3rem;">3 لغات</h4>
+        <p style="color:var(--gray);font-size:0.85rem;">عربي + فرنسي + إنجليزي تلقائياً</p>
+      </div>
+      <div style="text-align:center;padding:1.5rem;background:rgba(0,0,0,0.3);border-radius:12px;border:1px solid var(--border);">
+        <div style="font-size:2rem;margin-bottom:0.7rem;">💬</div>
+        <h4 style="margin-bottom:0.3rem;">واتساب مدمج</h4>
+        <p style="color:var(--gray);font-size:0.85rem;">تواصل فوري مع عملائك</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sectors -->
+  <h2 class="section-title" style="margin-bottom:0.5rem;">خدماتنا حسب القطاع</h2>
+  <div class="divider"></div>
+
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🍽️</div>
+      <h3>المطاعم والمقاهي</h3>
+      <p>موقع احترافي مع قائمة طعام تفاعلية، نظام طلب واتساب، عرض الصور الجذابة، وخريطة الموقع.</p>
+      <ul style="margin:1rem 0;padding-right:1rem;color:var(--gray);font-size:0.85rem;line-height:2;">
+        <li>قائمة طعام رقمية قابلة للتحديث</li>
+        <li>نظام طلب واتساب مباشر</li>
+        <li>معرض صور للأطباق</li>
+        <li>عرض ساعات العمل والموقع</li>
+        <li>chatbot للإجابة عن الاستفسارات</li>
+      </ul>
+      <div class="service-price"><span class="price-from">يبدأ من</span><span class="price-num">2,500 درهم</span></div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">🏥</div>
+      <h3>العيادات والأطباء</h3>
+      <p>موقع طبي احترافي مع نظام حجز مواعيد ذكي يوفر وقتك ووقت مرضاك.</p>
+      <ul style="margin:1rem 0;padding-right:1rem;color:var(--gray);font-size:0.85rem;line-height:2;">
+        <li>نظام حجز مواعيد أون لاين</li>
+        <li>chatbot طبي للأسئلة الشائعة</li>
+        <li>معرض خدمات وتخصصات</li>
+        <li>صفحة فريق الأطباء</li>
+        <li>نموذج تواصل مشفر</li>
+      </ul>
+      <div class="service-price"><span class="price-from">يبدأ من</span><span class="price-num">3,000 درهم</span></div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">✂️</div>
+      <h3>الحلاقة والتجميل</h3>
+      <p>اجعل عملاءك يحجزون مواعيدهم بأنفسهم — بدون مكالمات هاتفية متكررة.</p>
+      <ul style="margin:1rem 0;padding-right:1rem;color:var(--gray);font-size:0.85rem;line-height:2;">
+        <li>حجز مواعيد تلقائي بالتقويم</li>
+        <li>عرض الأسعار والخدمات</li>
+        <li>معرض صور قبل وبعد</li>
+        <li>تذكير تلقائي بالمواعيد</li>
+      </ul>
+      <div class="service-price"><span class="price-from">يبدأ من</span><span class="price-num">2,000 درهم</span></div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">🏗️</div>
+      <h3>البناء والمقاولات</h3>
+      <p>حاسبة تكلفة البناء بالذكاء الاصطناعي — أداة فريدة تجذب العملاء تلقائياً.</p>
+      <ul style="margin:1rem 0;padding-right:1rem;color:var(--gray);font-size:0.85rem;line-height:2;">
+        <li>حاسبة تكلفة البناء بالـ AI</li>
+        <li>معرض مشاريع منجزة</li>
+        <li>نموذج طلب عروض الأسعار</li>
+        <li>شهادات العملاء</li>
+      </ul>
+      <div class="service-price"><span class="price-from">يبدأ من</span><span class="price-num">6,000 درهم</span></div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">🛒</div>
+      <h3>المتاجر الإلكترونية</h3>
+      <p>متجر كامل مع توصيات ذكية، دفع إلكتروني، وإدارة مخزون — يبيع وأنت نائم.</p>
+      <ul style="margin:1rem 0;padding-right:1rem;color:var(--gray);font-size:0.85rem;line-height:2;">
+        <li>عرض منتجات بصور احترافية</li>
+        <li>سلة تسوق ونظام دفع</li>
+        <li>توصيات منتجات بالذكاء الاصطناعي</li>
+        <li>إدارة مخزون وطلبات</li>
+        <li>تتبع الشحن</li>
+      </ul>
+      <div class="service-price"><span class="price-from">يبدأ من</span><span class="price-num">12,000 درهم</span></div>
+    </div>
+
+    <div class="service-card">
+      <div class="service-icon">🏨</div>
+      <h3>الفنادق والرياض</h3>
+      <p>موقع سياحي احترافي يجذب الزوار الأجانب ويُبسّط عملية الحجز.</p>
+      <ul style="margin:1rem 0;padding-right:1rem;color:var(--gray);font-size:0.85rem;line-height:2;">
+        <li>عرض الغرف والأسعار</li>
+        <li>نظام حجز مع تأكيد فوري</li>
+        <li>خريطة ومعلومات السياحة</li>
+        <li>تقييمات وشهادات الضيوف</li>
+        <li>3 لغات (ع/FR/EN)</li>
+      </ul>
+      <div class="service-price"><span class="price-from">يبدأ من</span><span class="price-num">8,000 درهم</span></div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:3rem;">
+    <p style="color:var(--gray);margin-bottom:1.5rem;">قطاعك غير موجود في القائمة؟ نبني لأي نشاط تجاري!</p>
+    <a href="order.html" class="btn-primary">🚀 اطلب عرض سعر مخصص</a>
+  </div>
+
+</div>
+</section>
+
+<footer class="footer-full">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo"><svg width="32" height="32" viewBox="0 0 38 38"><polygon points="19,2 36,10.5 36,27.5 19,36 2,27.5 2,10.5" fill="#7C3AED"/><text x="19" y="25" text-anchor="middle" font-size="16" font-weight="900" fill="#F59E0B" font-family="Arial">W</text></svg><span class="logo-text">WEBIQ<span class="logo-dot">.AI</span></span></a>
+      <p id="footer-tagline">مواقع ذكية تبيع وأنت نائم 🌍</p>
+      <div id="currency-badge" style="margin-top:0.8rem;"></div>
+    </div>
+    <div class="footer-col"><h4>الخدمات</h4><ul><li><a href="services.html">مواقع المطاعم</a></li><li><a href="services.html">العيادات</a></li><li><a href="services.html">المتاجر</a></li><li><a href="services.html">الشركات</a></li></ul></div>
+    <div class="footer-col"><h4>الشركة</h4><ul><li><a href="mission.html">مهمتنا</a></li><li><a href="portfolio.html">أعمالنا</a></li><li><a href="pricing.html">الأسعار</a></li><li><a href="contact.html">تواصل</a></li></ul></div>
+    <div class="footer-col"><h4>قانوني</h4><ul><li><a href="privacy.html">سياسة الخصوصية</a></li><li><a href="terms.html">شروط الخدمة</a></li><li><a href="mission.html">Our Mission</a></li></ul><div style="margin-top:1rem;"><a href="https://wa.me/00212609018612" style="color:var(--gray);font-size:0.85rem;text-decoration:none;">📱 +212 609 018 612</a></div></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 WEBIQ.AI — Smart websites that sell 24/7 🌍</p>
+    <div class="footer-legal"><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="mission.html">Our Mission</a></div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/00212609018612" target="_blank">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</a>
+<script src="main.js"></script>
+</body>
+</html>

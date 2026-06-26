@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اطلب موقعك — WEBIQ.AI</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5' fill='%237C3AED'/><text y='.9em' x='50%' text-anchor='middle' font-size='45' font-weight='900' fill='%23F59E0B' font-family='Arial'>W</text></svg>">
+<link rel="stylesheet" href="style.css">
+<!-- Web3Forms (no setup needed) -->
+<style>
+.progress-bar{display:flex;gap:0;margin-bottom:3rem;justify-content:center;}
+.step-item{display:flex;flex-direction:column;align-items:center;gap:.5rem;flex:1;max-width:160px;position:relative;}
+.step-item::before{content:'';position:absolute;top:20px;left:calc(50% + 20px);width:calc(100% - 40px);height:2px;background:var(--border);z-index:0;}
+.step-item:last-child::before{display:none;}
+.step-circle{width:40px;height:40px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:var(--gray);background:var(--black2);z-index:1;transition:all .3s;}
+.step-item.active .step-circle{border-color:var(--purple);background:var(--purple);color:var(--white);box-shadow:0 0 20px var(--purple-glow);}
+.step-item.done .step-circle{border-color:var(--gold);background:var(--gold);color:var(--black);}
+.step-label{font-size:.75rem;color:var(--gray);text-align:center;}
+.form-step{display:none;}
+.form-step.active{display:block;animation:fadeIn .4s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.step-nav{display:flex;gap:1rem;justify-content:space-between;margin-top:2rem;}
+.btn-prev{padding:.8rem 1.8rem;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--white);cursor:pointer;font-size:.95rem;transition:all .2s;}
+.btn-prev:hover{border-color:var(--purple);}
+.btn-next{padding:.8rem 1.8rem;border-radius:10px;background:linear-gradient(135deg,var(--purple),var(--purple-light));color:var(--white);border:none;cursor:pointer;font-size:.95rem;font-weight:600;transition:all .3s;}
+.btn-next:hover{transform:translateY(-2px);box-shadow:0 0 25px var(--purple-glow);}
+.required{color:var(--gold);}
+.rating-row{display:flex;gap:.5rem;flex-wrap:wrap;}
+.rating-btn{padding:.4rem .9rem;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--gray);cursor:pointer;font-size:.85rem;transition:all .2s;}
+.rating-btn.selected{background:var(--purple);border-color:var(--purple);color:var(--white);}
+.success-box{text-align:center;padding:3rem 2rem;display:none;}
+.success-box .big-check{font-size:5rem;margin-bottom:1rem;}
+.sending-overlay{display:none;position:fixed;inset:0;background:rgba(10,10,15,.92);z-index:9999;align-items:center;justify-content:center;flex-direction:column;gap:1rem;}
+.sending-overlay.show{display:flex;}
+.spinner{width:50px;height:50px;border:3px solid var(--border);border-top-color:var(--purple);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body class="rtl">
+<canvas id="neural-canvas"></canvas>
+<div class="glow-orb orb1"></div>
+<div class="glow-orb orb2"></div>
+
+<!-- SENDING OVERLAY -->
+<div class="sending-overlay" id="sending-overlay">
+  <div class="spinner"></div>
+  <p style="color:var(--white);font-weight:600;">جاري إرسال طلبك...</p>
+</div>
+
+<nav class="navbar">
+  <a href="index.html" class="logo">
+    <svg class="logo-icon" viewBox="0 0 38 38"><polygon points="19,2 36,10.5 36,27.5 19,36 2,27.5 2,10.5" fill="#7C3AED"/><text x="19" y="25" text-anchor="middle" font-size="16" font-weight="900" fill="#F59E0B" font-family="Arial">W</text></svg>
+    <span class="logo-text">WEBIQ<span class="logo-dot">.AI</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">الرئيسية</a></li>
+    <li><a href="services.html">خدماتنا</a></li>
+    <li><a href="pricing.html">الأسعار</a></li>
+    <li><a href="contact.html">تواصل معنا</a></li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:1rem;">
+    <div class="lang-switcher">
+      <button class="lang-btn" data-lang="ar">ع</button>
+      <button class="lang-btn" data-lang="fr">FR</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+  </div>
+</nav>
+
+<div class="order-form-wrap" style="position:relative;z-index:1;">
+  <div style="text-align:center;margin-bottom:3rem;">
+    <span class="section-badge">طلب موقع ويب</span>
+    <h1 class="section-title" style="margin-top:.5rem;">أخبرنا عن مشروعك</h1>
+    <p style="color:var(--gray);max-width:500px;margin:0 auto;line-height:1.7;">سيتواصل معك فريقنا خلال <strong style="color:var(--gold);">أقل من ساعة</strong> بعرض سعر مخصص ووثيقة رسمية.</p>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-bar">
+    <div class="step-item active" id="step-ind-1"><div class="step-circle">1</div><div class="step-label">معلوماتك</div></div>
+    <div class="step-item" id="step-ind-2"><div class="step-circle">2</div><div class="step-label">نشاطك</div></div>
+    <div class="step-item" id="step-ind-3"><div class="step-circle">3</div><div class="step-label">الموقع</div></div>
+    <div class="step-item" id="step-ind-4"><div class="step-circle">4</div><div class="step-label">الميزانية</div></div>
+  </div>
+
+  <div id="main-form">
+
+  <!-- STEP 1 -->
+  <div class="form-step active" id="step-1">
+    <div style="background:var(--black3);border:1px solid var(--border);border-radius:16px;padding:2rem;">
+      <h3 style="margin-bottom:1.5rem;font-size:1.1rem;">👤 معلوماتك الشخصية</h3>
+      <div class="form-grid">
+        <div class="form-group"><label>الاسم الكامل <span class="required">*</span></label><input class="form-input" id="f-name" type="text" placeholder="مثال: محمد العلوي"></div>
+        <div class="form-group"><label>رقم الهاتف / واتساب <span class="required">*</span></label><input class="form-input" id="f-phone" type="tel" placeholder="00212XXXXXXXXX"></div>
+        <div class="form-group"><label>البريد الإلكتروني</label><input class="form-input" id="f-email" type="email" placeholder="exemple@gmail.com"></div>
+        <div class="form-group"><label>المدينة <span class="required">*</span></label>
+          <select class="form-select" id="f-city">
+            <option value="">اختر مدينتك...</option>
+            <option>الدار البيضاء</option><option>الرباط</option><option>مراكش</option>
+            <option>فاس</option><option>طنجة</option><option>أكادير</option>
+            <option>مكناس</option><option>وجدة</option><option>خارج المغرب</option><option>أخرى</option>
+          </select>
+        </div>
+        <div class="form-group"><label>طريقة التواصل المفضلة</label>
+          <select class="form-select" id="f-contact-pref"><option value="whatsapp">واتساب</option><option value="phone">مكالمة هاتفية</option><option value="email">البريد الإلكتروني</option></select>
+        </div>
+        <div class="form-group"><label>أفضل وقت للتواصل</label>
+          <select class="form-select" id="f-time"><option>صباحاً (9–12)</option><option>ظهراً (12–15)</option><option>مساءً (15–20)</option><option>في أي وقت</option></select>
+        </div>
+      </div>
+      <div class="step-nav"><div></div><button class="btn-next" onclick="goStep(2)">التالي →</button></div>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="form-step" id="step-2">
+    <div style="background:var(--black3);border:1px solid var(--border);border-radius:16px;padding:2rem;">
+      <h3 style="margin-bottom:1.5rem;font-size:1.1rem;">🏢 نشاطك التجاري</h3>
+      <div class="form-grid">
+        <div class="form-group"><label>اسم المحل / الشركة <span class="required">*</span></label><input class="form-input" id="f-biz-name" type="text" placeholder="مثال: مطعم الأصالة"></div>
+        <div class="form-group"><label>نوع النشاط <span class="required">*</span></label>
+          <select class="form-select" id="f-sector">
+            <option value="">اختر القطاع...</option>
+            <option>مطعم / مقهى / حلواني</option><option>عيادة / طب أسنان / صيدلية</option>
+            <option>حلاقة / تجميل / سبا</option><option>ملابس / أزياء / أكسسوار</option>
+            <option>بناء / مقاولة / ديكور</option><option>تعليم / مدرسة / دروس</option>
+            <option>فندق / رياض / شقق مفروشة</option><option>سيارات / وكالة / ميكانيك</option>
+            <option>خدمات / استشارات</option><option>متجر إلكتروني</option><option>عقارات</option><option>أخرى</option>
+          </select>
+        </div>
+        <div class="form-group full"><label>وصف نشاطك بشكل مختصر</label><textarea class="form-textarea" id="f-biz-desc" placeholder="مثال: مطعم متخصص في الأكلات المغربية التقليدية، يستقبل ما بين 50–100 زبون يومياً..."></textarea></div>
+        <div class="form-group"><label>هل لديك موقع حالي؟</label>
+          <select class="form-select" id="f-has-site"><option value="no">لا، أريد موقعاً جديداً</option><option value="yes-bad">نعم، لكنه قديم</option><option value="yes-good">نعم، أريد تحسينه</option></select>
+        </div>
+        <div class="form-group"><label>جمهورك المستهدف</label>
+          <select class="form-select" id="f-audience"><option>محليون في نفس المدينة</option><option>مغاربة في كل البلد</option><option>سياح وأجانب</option><option>الجميع</option></select>
+        </div>
+      </div>
+      <div class="step-nav"><button class="btn-prev" onclick="goStep(1)">← السابق</button><button class="btn-next" onclick="goStep(3)">التالي →</button></div>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="form-step" id="step-3">
+    <div style="background:var(--black3);border:1px solid var(--border);border-radius:16px;padding:2rem;">
+      <h3 style="margin-bottom:1.5rem;font-size:1.1rem;">🌐 الموقع المطلوب</h3>
+      <div class="form-grid">
+        <div class="form-group"><label>نوع الموقع <span class="required">*</span></label>
+          <select class="form-select" id="f-site-type">
+            <option value="">اختر...</option>
+            <option>موقع تعريفي (Landing Page)</option><option>موقع متعدد الصفحات</option>
+            <option>متجر إلكتروني</option><option>موقع مع نظام حجز</option><option>انصحني أنت</option>
+          </select>
+        </div>
+        <div class="form-group"><label>مستوى الاستعجال</label>
+          <select class="form-select" id="f-urgency"><option value="24h">⚡ خلال 24 ساعة (+30%)</option><option value="3days">🚀 خلال 3 أيام</option><option value="week" selected>📅 خلال أسبوع</option><option value="no-rush">😌 بدون استعجال</option></select>
+        </div>
+        <div class="form-group full"><label>الميزات المطلوبة</label>
+          <div class="checkbox-group" style="margin-top:.5rem;">
+            <label class="checkbox-item"><input type="checkbox" value="chatbot" class="feature-cb"> 🤖 Chatbot ذكي</label>
+            <label class="checkbox-item"><input type="checkbox" value="booking" class="feature-cb"> 📅 حجز مواعيد</label>
+            <label class="checkbox-item"><input type="checkbox" value="ecommerce" class="feature-cb"> 🛒 متجر إلكتروني</label>
+            <label class="checkbox-item"><input type="checkbox" value="whatsapp" class="feature-cb"> 💬 واتساب مدمج</label>
+            <label class="checkbox-item"><input type="checkbox" value="gallery" class="feature-cb"> 🖼️ معرض صور</label>
+            <label class="checkbox-item"><input type="checkbox" value="multilang" class="feature-cb"> 🌍 متعدد اللغات</label>
+            <label class="checkbox-item"><input type="checkbox" value="seo" class="feature-cb"> 🔍 SEO متقدم</label>
+            <label class="checkbox-item"><input type="checkbox" value="analytics" class="feature-cb"> 📊 تحليلات</label>
+          </div>
+        </div>
+        <div class="form-group"><label>اللغات</label>
+          <div class="checkbox-group" style="margin-top:.5rem;">
+            <label class="checkbox-item"><input type="checkbox" value="ar" class="lang-cb" checked> العربية</label>
+            <label class="checkbox-item"><input type="checkbox" value="fr" class="lang-cb"> الفرنسية</label>
+            <label class="checkbox-item"><input type="checkbox" value="en" class="lang-cb"> الإنجليزية</label>
+          </div>
+        </div>
+        <div class="form-group"><label>هل تملك اسم نطاق؟</label>
+          <select class="form-select" id="f-domain"><option value="no">لا — أحتاج مساعدة</option><option value="yes">نعم</option><option value="need">أريد مساعدة في الاختيار</option></select>
+        </div>
+      </div>
+      <div class="step-nav"><button class="btn-prev" onclick="goStep(2)">← السابق</button><button class="btn-next" onclick="goStep(4)">التالي →</button></div>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="form-step" id="step-4">
+    <div style="background:var(--black3);border:1px solid var(--border);border-radius:16px;padding:2rem;">
+      <h3 style="margin-bottom:1.5rem;font-size:1.1rem;">💰 الميزانية والتفاصيل</h3>
+      <div class="form-grid">
+        <div class="form-group"><label>الميزانية التقريبية <span class="required">*</span></label>
+          <select class="form-select" id="f-budget">
+            <option value="">اختر...</option>
+            <option value="200-400">$200 – $400 (Starter)</option>
+            <option value="400-800">$400 – $800 (Pro)</option>
+            <option value="800-1500">$800 – $1,500 (Advanced)</option>
+            <option value="1500+">$1,500+ (Enterprise)</option>
+            <option value="discuss">أريد عرض سعر أولاً</option>
+          </select>
+        </div>
+        <div class="form-group"><label>كيف سمعت عنا؟</label>
+          <select class="form-select" id="f-source"><option>واتساب</option><option>فيسبوك</option><option>إنستغرام</option><option>توصية</option><option>غوغل</option><option>أخرى</option></select>
+        </div>
+        <div class="form-group full"><label>مواقع تعجبك كمرجع للتصميم</label><input class="form-input" id="f-inspiration" type="text" placeholder="مثال: apple.com, noon.com..."></div>
+        <div class="form-group full"><label>ألوان أو هوية بصرية مفضلة</label><input class="form-input" id="f-colors" type="text" placeholder="مثال: أزرق وأبيض، ألوان فاخرة..."></div>
+        <div class="form-group full"><label>ملاحظات أو طلبات خاصة</label><textarea class="form-textarea" id="f-notes" placeholder="أي تفاصيل إضافية تريد إضافتها..."></textarea></div>
+      </div>
+
+      <div style="background:rgba(124,58,237,.08);border:1px solid var(--border);border-radius:12px;padding:1.2rem;margin:1.5rem 0;display:flex;gap:.7rem;align-items:flex-start;">
+        <span style="font-size:1.3rem;">🔒</span>
+        <p style="color:var(--gray);font-size:.88rem;line-height:1.6;">معلوماتك محمية بالكامل. ستصلك رسالة تأكيد فورية عبر واتساب بمجرد إرسال الطلب، وسيتواصل معك فريقنا بعرض سعر رسمي خلال أقل من ساعة.</p>
+      </div>
+
+      <div class="step-nav">
+        <button class="btn-prev" onclick="goStep(3)">← السابق</button>
+        <button class="btn-submit" onclick="submitForm()" style="flex:1;max-width:320px;">🚀 إرسال الطلب والحصول على عرض</button>
+      </div>
+    </div>
+  </div>
+  </div><!-- /main-form -->
+
+  <!-- SUCCESS BOX -->
+  <div class="success-box" id="success-box">
+    <div class="big-check">🎉</div>
+    <h2 style="font-size:1.8rem;font-weight:800;margin-bottom:.5rem;">تم إرسال طلبك بنجاح!</h2>
+    <p>ستصلك رسالة تأكيد على واتساب الآن.<br>وسيرسل لك فريق WEBIQ.AI عرض سعر رسمي خلال أقل من ساعة.</p>
+    <div style="display:flex;flex-direction:column;gap:1rem;align-items:center;max-width:400px;margin:0 auto;">
+      <a id="wa-confirm-link" href="#" target="_blank" class="btn-primary" style="width:100%;justify-content:center;">💬 فتح واتساب لمتابعة طلبك</a>
+      <a href="index.html" style="color:var(--gray);font-size:.9rem;">← العودة للرئيسية</a>
+    </div>
+    <div style="margin-top:2rem;padding:1.2rem;background:var(--black3);border:1px solid var(--border);border-radius:12px;max-width:500px;margin-left:auto;margin-right:auto;">
+      <p style="color:var(--gray);font-size:.85rem;line-height:1.7;">📧 تم إرسال نسخة من طلبك إلى فريق WEBIQ.AI. سنراجعه ونرسل لك وثيقة عرض سعر رسمية.</p>
+    </div>
+  </div>
+</div>
+
+<a class="wa-float" href="https://wa.me/00212609018612" target="_blank">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</a>
+
+<script src="main.js"></script>
+<script>
+// ── Web3Forms config ──
+const W3F_KEY = '54090faa-f30d-43f9-99fd-e6403aa060bd';
+
+let currentStep = 1;
+
+function goStep(n) {
+  if(n===2 && !validate(1)) return;
+  if(n===3 && !validate(2)) return;
+  document.querySelector(`#step-${currentStep}`)?.classList.remove('active');
+  document.querySelector(`#step-ind-${currentStep}`)?.classList.remove('active');
+  document.querySelector(`#step-ind-${currentStep}`)?.classList.add('done');
+  currentStep = n;
+  document.querySelector(`#step-${n}`)?.classList.add('active');
+  document.querySelector(`#step-ind-${n}`)?.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function validate(step) {
+  if(step===1){
+    if(!v('f-name'))  { alert('الرجاء إدخال اسمك الكامل'); return false; }
+    if(!v('f-phone')) { alert('الرجاء إدخال رقم هاتفك'); return false; }
+    if(!v('f-city'))  { alert('الرجاء اختيار مدينتك'); return false; }
+  }
+  if(step===2){
+    if(!v('f-biz-name')) { alert('الرجاء إدخال اسم نشاطك التجاري'); return false; }
+    if(!v('f-sector'))   { alert('الرجاء اختيار القطاع'); return false; }
+  }
+  return true;
+}
+function v(id){ return (document.getElementById(id)?.value||'').trim(); }
+
+function getChecked(cls){
+  return [...document.querySelectorAll(`.${cls}:checked`)].map(c=>c.value).join(', ') || 'لا يوجد';
+}
+
+async function submitForm() {
+  if(!v('f-budget')){ alert('الرجاء اختيار الميزانية'); return; }
+
+  // Collect all data
+  const data = {
+    client_name:    v('f-name'),
+    client_phone:   v('f-phone'),
+    client_email:   v('f-email') || 'لم يُدخل',
+    client_city:    v('f-city'),
+    contact_pref:   v('f-contact-pref'),
+    best_time:      v('f-time'),
+    biz_name:       v('f-biz-name'),
+    sector:         v('f-sector'),
+    biz_desc:       v('f-biz-desc') || '—',
+    has_site:       v('f-has-site'),
+    audience:       v('f-audience'),
+    site_type:      v('f-site-type'),
+    urgency:        v('f-urgency'),
+    features:       getChecked('feature-cb'),
+    languages:      getChecked('lang-cb'),
+    domain:         v('f-domain'),
+    budget:         v('f-budget'),
+    source:         v('f-source'),
+    inspiration:    v('f-inspiration') || '—',
+    colors:         v('f-colors') || '—',
+    notes:          v('f-notes') || '—',
+    submit_date:    new Date().toLocaleString('ar-MA', {timeZone:'Africa/Casablanca'}),
+    to_email:       'khafir2017@gmail.com',
+  };
+
+  // Show spinner
+  document.getElementById('sending-overlay').classList.add('show');
+
+  // 1. Send via Web3Forms → يصل مباشرة لـ khafir2017@gmail.com
+  try {
+    // ── بناء الرابط السحري للإدارة ──
+    const adminBase = 'https://webiqsite.netlify.app/admin.html';
+    const magicParams = new URLSearchParams({
+      name:     data.client_name,
+      phone:    data.client_phone,
+      email:    data.client_email,
+      city:     data.client_city,
+      biz:      data.biz_name,
+      sector:   data.sector,
+      type:     data.site_type,
+      budget:   data.budget,
+      urgency:  data.urgency,
+      features: data.features,
+      delivery: '',
+    });
+    const magicLink = `${adminBase}?${magicParams.toString()}`;
+
+    const emailBody = `
+🌐 طلب موقع جديد — WEBIQ.AI
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+👤 العميل: ${data.client_name}
+📱 الهاتف: ${data.client_phone}
+📧 الإيميل: ${data.client_email}
+🏙️ المدينة: ${data.client_city}
+📞 التواصل المفضل: ${data.contact_pref} — ${data.best_time}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏢 النشاط: ${data.biz_name}
+📂 القطاع: ${data.sector}
+📝 الوصف: ${data.biz_desc}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🌐 نوع الموقع: ${data.site_type}
+⚡ الاستعجال: ${data.urgency}
+🔧 الميزات: ${data.features}
+🌍 اللغات: ${data.languages}
+💰 الميزانية: ${data.budget}
+🎨 الألوان: ${data.colors}
+🔗 مرجع التصميم: ${data.inspiration}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💬 ملاحظات: ${data.notes}
+🕐 التاريخ: ${data.submit_date}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 إجراء سريع — اضغط الرابط أدناه:
+⚡ أضف ${data.client_name} للبايبلاين فوراً:
+${magicLink}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    `.trim();
+
+    await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        access_key: W3F_KEY,
+        subject: `🌐 طلب موقع جديد — ${data.biz_name} (${data.sector}) — WEBIQ.AI`,
+        from_name: `WEBIQ.AI — ${data.client_name}`,
+        message: emailBody,
+        email: data.client_email || 'noreply@webiq.ai',
+        // Extra fields shown in Web3Forms dashboard
+        'العميل': data.client_name,
+        'الهاتف': data.client_phone,
+        'النشاط': data.biz_name,
+        'الميزانية': data.budget,
+        'الاستعجال': data.urgency,
+      })
+    });
+    console.log('✅ Web3Forms: إيميل أُرسل بنجاح');
+  } catch(e) { console.warn('Web3Forms error:', e); }
+
+  // 2. Build WhatsApp notification for Ahmed (detailed)
+  const waToAhmed = `🌐 *طلب موقع جديد — WEBIQ.AI*
+━━━━━━━━━━━━━━━━
+👤 *العميل:* ${data.client_name}
+📱 *الهاتف:* ${data.client_phone}
+📧 *الإيميل:* ${data.client_email}
+🏙️ *المدينة:* ${data.client_city}
+📞 *التواصل:* ${data.contact_pref} — ${data.best_time}
+━━━━━━━━━━━━━━━━
+🏢 *النشاط:* ${data.biz_name}
+📂 *القطاع:* ${data.sector}
+📝 *الوصف:* ${data.biz_desc}
+━━━━━━━━━━━━━━━━
+🌐 *نوع الموقع:* ${data.site_type}
+⚡ *الاستعجال:* ${data.urgency}
+🔧 *الميزات:* ${data.features}
+🌍 *اللغات:* ${data.languages}
+💰 *الميزانية:* ${data.budget}
+🎨 *الألوان:* ${data.colors}
+🔗 *مرجع التصميم:* ${data.inspiration}
+━━━━━━━━━━━━━━━━
+💬 *ملاحظات:* ${data.notes}
+🕐 *التاريخ:* ${data.submit_date}`;
+
+  // 3. Build WhatsApp confirmation for client
+  const budgetLabel = {
+    '200-400':'Starter ($200–$400)',
+    '400-800':'Pro ($400–$800)',
+    '800-1500':'Advanced ($800–$1,500)',
+    '1500+':'Enterprise ($1,500+)',
+    'discuss':'عرض سعر مفصّل'
+  }[data.budget] || data.budget;
+
+  const waToClient = `مرحباً ${data.client_name} 👋
+
+شكراً لثقتك في *WEBIQ.AI* — وصل طلبك بنجاح! ✅
+
+📋 *ملخص طلبك:*
+• النشاط: ${data.biz_name} (${data.sector})
+• الموقع المطلوب: ${data.site_type}
+• الميزانية: ${budgetLabel}
+• الاستعجال: ${data.urgency}
+
+⏱️ سنرسل لك *وثيقة عرض سعر رسمية* خلال أقل من ساعة، تتضمن:
+✦ تفاصيل المشروع الكاملة
+✦ السعر الدقيق بعملتك
+✦ جدول التسليم
+✦ ما يميز موقعك عن المنافسين
+
+*WEBIQ.AI* — مواقع ذكية تبيع وأنت نائم 🌍`;
+
+  // Store client data globally for the quote generator
+  window._lastOrder = { data, waToClient };
+
+  // 4. Update WA link & show success
+  document.getElementById('wa-confirm-link').href =
+    `https://wa.me/00212609018612?text=${encodeURIComponent(waToAhmed)}`;
+
+  document.getElementById('sending-overlay').classList.remove('show');
+  document.getElementById('main-form').style.display = 'none';
+  document.getElementById('success-box').style.display = 'block';
+  window.scrollTo({top:0,behavior:'smooth'});
+
+  // Auto-open WhatsApp to Ahmed after 1.5s
+  setTimeout(() => {
+    window.open(`https://wa.me/00212609018612?text=${encodeURIComponent(waToAhmed)}`, '_blank');
+  }, 1500);
+}
+</script>
+</body>
+</html>
